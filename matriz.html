@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Risco - Identificação de Possível Grave Ameaça</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base layout override */
+        body {
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            background-color: #f8fafc;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 80px;
+            background-color: #f1f5f9;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2rem;
+            position: relative;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            width: 48px;
+            height: 48px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-logo svg {
+            width: 24px;
+            height: 24px;
+            color: #3b82f6;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #64748b;
+            padding: 1rem 0;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border-radius: 8px;
+            width: 85%;
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item span {
+            font-size: 0.65rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 1rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sidebar-bottom .nav-item {
+            margin-bottom: 0;
+            padding: 0.5rem 0;
+        }
+
+        /* Main Content styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Gepes Header Override */
+        .gepes-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: transparent;
+            position: relative;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            height: 32px;
+        }
+
+        .header-logo span {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #1e293b;
+        }
+
+        .header-logo b {
+            font-weight: 700;
+        }
+
+        /* Adjust internal container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 3rem 2rem 3rem;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div style="margin-bottom: 2rem;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="#3b82f6" stroke-width="3" />
+                <circle cx="12" cy="12" r="4" fill="#f43f5e" />
+            </svg>
+        </div>
+
+        <a href="#" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span>Página Inicial</span>
+        </a>
+
+        <a href="index.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+            <span>Atendimentos</span>
+        </a>
+
+        <a href="identificacao.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Registrar<br>atendimento</span>
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>Setup</span>
+            </a>
+            <a href="#" class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>F0000001</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="gepes-header">
+            <div class="header-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#3b82f6" />
+                    <circle cx="12" cy="12" r="4" fill="#ffffff" />
+                </svg>
+                <span>Gepes <b>atendimento</b> - Ameaça</span>
+            </div>
+        </header>
+
+        <div class="container">
+            <header style="position: relative; margin-bottom: 2rem; padding-bottom: 1rem;">
+                <a href="identificacao.html"
+                    style="position: absolute; left: 0; top: 10px; text-decoration: none; color: var(--primary-color); font-weight: 600;">&larr;
+                    Voltar para Identificação</a>
+                <h1>Matriz de Risco</h1>
+                <p>Identificação de Possível Grave Ameaça</p>
+            </header>
+
+            <main class="content-wrapper">
+                <div class="form-container">
+                    <form id="risk-form">
+
+                        <!-- Eixo 1 -->
+                        <section class="axis-card">
+                            <h2>Eixo 1 - Conteúdo</h2>
+                            <div class="options-group" id="eixo1">
+                                <label class="radio-option">
+                                    <input type="radio" name="e1" value="0" required>
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>0 Pontos</strong>
+                                        <span>Reclamação, xingamento, desabafo</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e1" value="1">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>1 Ponto</strong>
+                                        <span>Ameaça vaga (ex.: você vai ver, vai se arrepender)</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e1" value="2">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>2 Pontos</strong>
+                                        <span>Ameaça de dano específico e lesão</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e1" value="3">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>3 Pontos</strong>
+                                        <span>Ameaça de morte direcionada, lesão ou sequestro</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- Eixo 2 -->
+                        <section class="axis-card">
+                            <h2>Eixo 2 - Violência prometida</h2>
+                            <div class="options-group" id="eixo2">
+                                <label class="radio-option">
+                                    <input type="radio" name="e2" value="0" required>
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>0 Pontos</strong>
+                                        <span>Nenhuma</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e2" value="1">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>1 Ponto</strong>
+                                        <span>Prejuízo moral ou financeiro</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e2" value="2">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>2 Pontos</strong>
+                                        <span>Violência verbal genérica</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e2" value="3">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>3 Pontos</strong>
+                                        <span>Violência física grave ou letal</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- Eixo 3 -->
+                        <section class="axis-card">
+                            <h2>Eixo 3 - Concretude</h2>
+                            <div class="options-group" id="eixo3">
+                                <label class="radio-option">
+                                    <input type="radio" name="e3" value="0" required>
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>0 Pontos</strong>
+                                        <span>Sem detalhes</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e3" value="1">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>1 Ponto</strong>
+                                        <span>Ideia genérica</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e3" value="2">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>2 Pontos</strong>
+                                        <span>Alvo, forma e local definidos</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e3" value="3">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>3 Pontos</strong>
+                                        <span>Alvo + meio + local definidos</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- Eixo 4 -->
+                        <section class="axis-card">
+                            <h2>Eixo 4 - Capacidade de ação</h2>
+                            <div class="options-group" id="eixo4">
+                                <label class="radio-option">
+                                    <input type="radio" name="e4" value="0" required>
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>0 Pontos</strong>
+                                        <span>Totalmente inverossímel</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e4" value="1">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>1 Ponto</strong>
+                                        <span>Pouco provável</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e4" value="2">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>2 Pontos</strong>
+                                        <span>Possível</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e4" value="3">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>3 Pontos</strong>
+                                        <span>Real e viável</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- Eixo 5 -->
+                        <section class="axis-card">
+                            <h2>Eixo 5 - Proximidade temporal</h2>
+                            <div class="options-group" id="eixo5">
+                                <label class="radio-option">
+                                    <input type="radio" name="e5" value="0" required>
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>0 Pontos</strong>
+                                        <span>Indefinida</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e5" value="1">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>1 Ponto</strong>
+                                        <span>Um dia</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e5" value="2">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>2 Pontos</strong>
+                                        <span>Em breve</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e5" value="3">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>3 Pontos</strong>
+                                        <span>Imediata</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- Eixo 6 -->
+                        <section class="axis-card">
+                            <h2>Eixo 6 - Histórico</h2>
+                            <div class="options-group" id="eixo6">
+                                <label class="radio-option">
+                                    <input type="radio" name="e6" value="0" required>
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>0 Pontos</strong>
+                                        <span>Nenhum</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e6" value="1">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>1 Ponto</strong>
+                                        <span>Conflitos verbais</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e6" value="2">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>2 Pontos</strong>
+                                        <span>Ameaças anteriores</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="e6" value="3">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>3 Pontos</strong>
+                                        <span>Violência real anterior</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- Nível de Provas -->
+                        <section class="axis-card proofs-card">
+                            <h2>Nível de Provas e Registro</h2>
+                            <div class="options-group" id="provas">
+                                <label class="radio-option">
+                                    <input type="radio" name="provas" value="P0" required>
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>P0 - Nenhuma prova</strong>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="provas" value="P1">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>P1 - Indício fraco</strong>
+                                        <span>(caso isolado)</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="provas" value="P2">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>P2 - Prova média</strong>
+                                        <span>(print, testemunha)</span>
+                                    </div>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="provas" value="P3">
+                                    <span class="radio-custom"></span>
+                                    <div class="option-text">
+                                        <strong>P3 - Prova forte</strong>
+                                        <span>(áudio, vídeo, câmera)</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="bo-section">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" id="bo-registro">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Já houve registro de BO?</strong>
+                                    </div>
+                                </label>
+                            </div>
+                        </section>
+
+                        <button type="button" id="reset-btn" class="secondary-btn">Limpar Matriz</button>
+
+                    </form>
+                </div>
+
+                <!-- Painel de Resultados Sticky/Fixo -->
+                <div class="results-panel">
+                    <div class="results-card">
+                        <h3>Resultado da Avaliação</h3>
+                        <div class="score-display">
+                            <span id="total-score">0</span>
+                            <span class="max-score">/ 18</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="category-display">
+                            <span class="label">Classificação:</span>
+                            <div id="risk-category" class="badge">Aguardando...</div>
+                        </div>
+                        <div class="treatment-display">
+                            <span class="label">Tratamento Sugerido:</span>
+                            <p id="treatment-text">Preencha os eixos ao lado para ver o tratamento recomendado.</p>
+                        </div>
+                        <div class="proofs-display">
+                            <span id="proofs-tag" class="badge-neutral" style="display:none;"></span>
+                            <span id="bo-tag" class="badge-neutral" style="display:none;">BO Registrado</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
