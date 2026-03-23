@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matriz de Risco - Identificação de Possível Grave Ameaça</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Base layout override */
@@ -134,6 +134,20 @@
             font-weight: 700;
         }
 
+        .header-actions {
+            position: absolute;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            color: #64748b;
+        }
+
+        .header-actions svg {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
         /* Adjust internal container */
         .container {
             width: 100%;
@@ -141,6 +155,28 @@
             margin: 0 auto;
             padding: 0 3rem 2rem 3rem;
             box-sizing: border-box;
+        }
+
+        .manifestacao-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: #3b82f6;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+            margin-top: 0.5rem;
+        }
+
+        .manifestacao-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px -1px rgba(59, 130, 246, 0.3);
         }
     </style>
 </head>
@@ -171,11 +207,19 @@
             <span>Atendimentos</span>
         </a>
 
-        <a href="identificacao.html" class="nav-item">
+        <a href="identificacao.html" class="nav-item active">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
             <span>Registrar<br>atendimento</span>
+        </a>
+
+        <a href="manifestacoes.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+            </svg>
+            <span>Manifestações</span>
         </a>
 
         <div class="sidebar-bottom">
@@ -206,6 +250,15 @@
                     <circle cx="12" cy="12" r="4" fill="#ffffff" />
                 </svg>
                 <span>Gepes <b>atendimento</b> - Ameaça</span>
+            </div>
+            <div class="header-actions">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
             </div>
         </header>
 
@@ -530,13 +583,59 @@
                             <span id="proofs-tag" class="badge-neutral" style="display:none;"></span>
                             <span id="bo-tag" class="badge-neutral" style="display:none;">BO Registrado</span>
                         </div>
+                        <div class="divider"></div>
+                        <a href="manifestacoes.html" class="manifestacao-btn" onclick="salvarResultadoMatriz(event)">
+                            💬 Acessar Manifestação
+                        </a>
                     </div>
                 </div>
             </main>
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        function salvarResultadoMatriz(event) {
+            const score = parseInt(document.getElementById('total-score').innerText) || 0;
+            const categoryEl = document.getElementById('risk-category');
+            const treatment = document.getElementById('treatment-text').innerText;
+            const provasEl = document.getElementById('proofs-tag');
+            const boEl = document.getElementById('bo-tag');
+
+            let riskLevel = 'neutral';
+            if (categoryEl.classList.contains('low')) riskLevel = 'low';
+            else if (categoryEl.classList.contains('medium')) riskLevel = 'medium';
+            else if (categoryEl.classList.contains('high')) riskLevel = 'high';
+
+            const dados = {
+                pontuacao: score,
+                classificacao: categoryEl.innerText,
+                nivel: riskLevel,
+                tratamento: treatment,
+                provas: provasEl.style.display !== 'none' ? provasEl.innerText : null,
+                boRegistrado: boEl.style.display !== 'none',
+                data: new Date().toLocaleString('pt-BR')
+            };
+
+            // Salva com chave genérica (compatibilidade retroativa)
+            localStorage.setItem('matrizResultado', JSON.stringify(dados));
+
+            // Vincula ao atendimento ativo se existir
+            const atendId = sessionStorage.getItem('atendimentoId') || localStorage.getItem('atendimentoAtivo');
+            if (atendId) {
+                localStorage.setItem('matrizResultado_' + atendId, JSON.stringify(dados));
+                // Atualiza também os dados do atendimento com o resultado
+                const rawAtend = localStorage.getItem('atendimento_' + atendId);
+                if (rawAtend) {
+                    try {
+                        const atend = JSON.parse(rawAtend);
+                        atend.matrizResultado = dados;
+                        localStorage.setItem('atendimento_' + atendId, JSON.stringify(atend));
+                    } catch(e) {}
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

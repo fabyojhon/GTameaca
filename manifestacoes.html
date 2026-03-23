@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhar Denúncia</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 80px;
+            background-color: #f1f5f9;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2rem;
+            position: relative;
+        }
+
+        .sidebar-logo {
+            width: 48px;
+            height: 48px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-logo svg {
+            width: 24px;
+            height: 24px;
+            color: #3b82f6;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #64748b;
+            padding: 1rem 0;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border-radius: 8px;
+            width: 85%;
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item span {
+            font-size: 0.65rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 1rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sidebar-bottom .nav-item {
+            margin-bottom: 0;
+            padding: 0.5rem 0;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Gepes Header */
+        .gepes-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: transparent;
+            position: relative;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .header-logo span {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #1e293b;
+        }
+
+        .header-logo b {
+            font-weight: 700;
+        }
+
+        .header-actions {
+            position: absolute;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            color: #64748b;
+        }
+
+        .header-actions svg {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        /* HEADER */
+        .header {
+            background: #e9e9e9;
+            padding: 12px 20px;
+            border-bottom: 2px solid #dcdcdc;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-voltar {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        /* BOX */
+        .box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .label {
+            font-size: 12px;
+            color: gray;
+        }
+
+        .value {
+            font-weight: bold;
+            margin-top: 3px;
+        }
+
+        /* BADGE */
+        .badge {
+            background: #f3e5ab;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #007bff;
+            font-weight: bold;
+        }
+
+        /* FORM */
+        .section {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 6px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* SUB GRID */
+        .subgrid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            border-top: 1px solid #ddd;
+            padding: 15px;
+        }
+
+        /* STATUS */
+        .status {
+            font-weight: bold;
+        }
+
+        .status.pendente {
+            color: #c27c00;
+        }
+
+        .status.ok {
+            color: green;
+        }
+
+        /* RESULTADO INLINE DA MATRIZ */
+        .resultado-inline {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .resultado-score-linha {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .resultado-score {
+            font-size: 1.7rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .resultado-total {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .resultado-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .resultado-badge.neutral { background: #e2e8f0; color: #475569; }
+        .resultado-badge.low     { background: #dcfce7; color: #166534; }
+        .resultado-badge.medium  { background: #fef9c3; color: #854d0e; }
+        .resultado-badge.high    { background: #fee2e2; color: #991b1b; }
+
+        .resultado-score.neutral { color: #475569; }
+        .resultado-score.low     { color: #166534; }
+        .resultado-score.medium  { color: #92400e; }
+        .resultado-score.high    { color: #991b1b; }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div style="margin-bottom: 2rem;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="#3b82f6" stroke-width="3" />
+                <circle cx="12" cy="12" r="4" fill="#f43f5e" />
+            </svg>
+        </div>
+
+        <a href="index.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span>Página Inicial</span>
+        </a>
+
+        <a href="index.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+            <span>Atendimentos</span>
+        </a>
+
+        <a href="identificacao.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Registrar<br>atendimento</span>
+        </a>
+
+        <a href="manifestacoes.html" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+            </svg>
+            <span>Manifestações</span>
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>Setup</span>
+            </a>
+            <a href="#" class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>F0000001</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="gepes-header">
+            <div class="header-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#3b82f6" />
+                    <circle cx="12" cy="12" r="4" fill="#ffffff" />
+                </svg>
+                <span>Gepes <b>atendimento</b> - Ameaça</span>
+            </div>
+            <div class="header-actions">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </div>
+        </header>
+
+    <div class="header" style="background:#f1f5f9; border-bottom:1px solid #e2e8f0; border-top:1px solid #e2e8f0; border-left:none; border-right:none;">
+        <button class="btn-voltar" onclick="window.location.href='identificacao.html'">◀ Voltar para Atendimento</button>
+        <strong id="header-tit">Detalhar Denúncia: ...</strong>
+    </div>
+
+
+
+    <div class="container">
+
+        <!-- TOPO -->
+        <div class="box">
+            <div class="grid">
+                <div>
+                    <div class="label">Registro da Denúncia</div>
+                    <div id="reg-data" class="value">--/--/----</div>
+                </div>
+
+                <div>
+                    <div class="label">Estado</div>
+                    <div id="reg-status" class="value">---</div>
+                </div>
+
+                <div>
+                    <div class="label">Assessor</div>
+                    <div class="value">Fxxxxxxx</div>
+                </div>
+
+                <div>
+                    <div class="label">Resultado da Matriz</div>
+                    <div id="reg-resultado" class="resultado-inline">
+                        <div class="resultado-score-linha">
+                            <span class="resultado-score" id="resultado-score" style="color:#94a3b8;">--</span>
+                            <span class="resultado-total" id="resultado-total"></span>
+                        </div>
+                        <span class="resultado-badge neutral" id="resultado-badge">Sem avaliação</span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="label">Origem</div>
+                    <div class="value">Canal de Ética</div>
+                </div>
+
+                <div>
+                    <div class="label">Classificação</div>
+                    <div id="reg-classificacao" class="value">---</div>
+                </div>
+
+                <div>
+                    <div class="label">Dependência</div>
+                    <div class="value">8910 - Gepes Atendimento</div>
+                </div>
+
+                <div>
+                    <div class="label">Risco</div>
+                    <div id="reg-risco" class="badge">---</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABAS -->
+        <div class="box">
+            <div class="tabs">
+                <div class="tab active" onclick="trocarAba(event, 'manifestacoes')">MANIFESTAÇÕES</div>
+                <div class="tab" onclick="trocarAba(event, 'anexos')">ANEXOS</div>
+            </div>
+
+            <!-- MANIFESTAÇÕES -->
+            <div id="manifestacoes">
+                <!-- Conteúdo dinâmico aqui -->
+            </div>
+
+            <!-- ANEXOS -->
+            <div id="anexos" style="display:none; padding:15px;">
+                <p>Nenhum anexo encontrado.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // DADOS MOCK - funciona 100% offline, sem servidor
+        const MOCK_DENUNCIA = {
+            numero: '2026/0012',
+            registro: '19/03/2026',
+            status: 'Em Análise',
+            resultado: 'Pendente',
+            classificacao: 'Ameaça',
+            risco: 'Alto'
+        };
+
+        const MOCK_BASE = [
+            {
+                id: 1,
+                responsavel: 'Gepes Atendimento',
+                data: '19/03/2026',
+                prazo: 5,
+                texto: 'O funcionário relatou ter recebido ameaças durante atendimento presencial na agência. Solicito manifestação da área de segurança.',
+                status: 'Respondido'
+            },
+            {
+                id: 2,
+                responsavel: 'Gepes Assessoramento',
+                data: '19/03/2026',
+                prazo: 3,
+                texto: '',
+                status: 'Pendente'
+            }
+        ];
+
+        const STORAGE_KEY = 'manifestacoes_estado';
+
+        function carregarEstado() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return JSON.parse(JSON.stringify(MOCK_BASE));
+            try { return JSON.parse(raw); } catch(e) { return JSON.parse(JSON.stringify(MOCK_BASE)); }
+        }
+
+        function salvarEstado(lista) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+        }
+
+        let manifestacoes = carregarEstado();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregar();
+            carregarResultadoMatriz();
+        });
+
+        function carregar() {
+            let den = {...MOCK_DENUNCIA};
+
+            const atendId = sessionStorage.getItem('atendimentoId') || localStorage.getItem('atendimentoAtivo');
+            if (atendId) {
+                const rawAtend = localStorage.getItem('atendimento_' + atendId);
+                if (rawAtend) {
+                    try {
+                        const atend = JSON.parse(rawAtend);
+                        den.numero = atend.id || den.numero;
+                        if (atend.dataFato) {
+                            // converte T para espaço (ex: 2026-03-19T10:00 -> 2026-03-19 10:00)
+                            den.registro = atend.dataFato.replace('T', ' ');
+                        } else if (atend.dataRegistro) {
+                            den.registro = atend.dataRegistro;
+                        }
+                    } catch(e) {}
+                }
+            }
+
+            document.getElementById('header-tit').innerText = 'Detalhar Denúncia: ' + den.numero;
+            document.getElementById('reg-data').innerText = den.registro;
+            document.getElementById('reg-status').innerText = den.status;
+            document.getElementById('reg-classificacao').innerText = den.classificacao;
+            document.getElementById('reg-risco').innerText = den.risco;
+            renderizarManifestacoes(manifestacoes);
+        }
+
+        function renderizarManifestacoes(lista) {
+            const container = document.getElementById('manifestacoes');
+            container.innerHTML = '';
+            lista.forEach(function(item) {
+                const isRespondido = item.status === 'Respondido';
+                const card = document.createElement('div');
+                card.className = 'card';
+                const situacaoHtml = isRespondido
+                    ? '<strong style="color:green">&#10004; Respondido</strong>'
+                    : '<strong style="color:#c27c00">&#9203; Pendente (' + (item.prazo - 1) + ' dias restantes)</strong>';
+                const labelTxt = item.id === 1 ? 'Solicitação de Manifestação' : 'Parecer';
+                const btnHtml = !isRespondido ? '<button onclick="enviar(' + item.id + ')">Enviar</button>' : '';
+                card.innerHTML =
+                    '<div class="subgrid">' +
+                        '<div><div class="label">Responsável</div><div class="value">' + item.responsavel + '</div></div>' +
+                        '<div><div class="label">Data Solicitação</div><div class="value">' + item.data + '</div></div>' +
+                        '<div><div class="label">Prazo</div><div class="value">' + item.prazo + ' dias</div></div>' +
+                        '<div><div class="label">Situação</div><div id="status-' + item.id + '" class="status ' + (isRespondido ? 'ok' : 'pendente') + '">' + situacaoHtml + '</div></div>' +
+                    '</div>' +
+                    '<div class="section">' +
+                        '<div class="label">' + labelTxt + '</div>' +
+                        '<textarea id="txt-' + item.id + '" ' + (isRespondido ? 'disabled' : '') + '>' + (item.texto || '') + '</textarea>' +
+                        btnHtml +
+                    '</div>';
+                container.appendChild(card);
+            });
+        }
+
+        function trocarAba(event, aba) {
+            document.getElementById('manifestacoes').style.display = 'none';
+            document.getElementById('anexos').style.display = 'none';
+            document.getElementById(aba).style.display = 'block';
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            event.currentTarget.classList.add('active');
+        }
+
+        function enviar(id) {
+            const texto = document.getElementById('txt-' + id).value;
+            if (!texto.trim()) { alert('Preencha o campo antes de enviar!'); return; }
+            const item = manifestacoes.find(function(m) { return m.id === id; });
+            if (item) { item.texto = texto; item.status = 'Respondido'; }
+            salvarEstado(manifestacoes);
+            const statusEl = document.getElementById('status-' + id);
+            statusEl.innerHTML = '<strong style="color:green">&#10004; Respondido</strong>';
+            statusEl.classList.remove('pendente');
+            statusEl.classList.add('ok');
+            document.getElementById('txt-' + id).disabled = true;
+            const btn = document.querySelector('button[onclick="enviar(' + id + ')"]');
+            if (btn) btn.remove();
+            alert('Enviado com sucesso! (modo demonstração — salvo localmente)');
+        }
+
+        function carregarResultadoMatriz() {
+            const atendId = sessionStorage.getItem('atendimentoId') || localStorage.getItem('atendimentoAtivo');
+            const rawLinked = atendId ? localStorage.getItem('matrizResultado_' + atendId) : null;
+            const rawFallback = localStorage.getItem('matrizResultado');
+            
+            // Prioriza o resultado vinculado a este atendimento específico, cai pro fallback se não existe
+            const raw = rawLinked || rawFallback;
+
+            const scoreEl  = document.getElementById('resultado-score');
+            const totalEl  = document.getElementById('resultado-total');
+            const badgeEl  = document.getElementById('resultado-badge');
+
+            // segurança: elementos podem não existir
+            if (!scoreEl || !totalEl || !badgeEl) return;
+
+            if (!raw) {
+                scoreEl.textContent = '--';
+                totalEl.textContent = '';
+                badgeEl.textContent = 'Sem avaliação';
+                badgeEl.className = 'resultado-badge neutral';
+                scoreEl.className = 'resultado-score neutral';
+                return;
+            }
+            try {
+                const d = JSON.parse(raw);
+                const nivel = d.nivel || 'neutral';
+
+                scoreEl.textContent = d.pontuacao !== undefined ? d.pontuacao : '--';
+                totalEl.textContent = d.pontuacao !== undefined ? '/ 18 pts' : '';
+                badgeEl.textContent = d.classificacao || '---';
+
+                scoreEl.className = 'resultado-score ' + nivel;
+                badgeEl.className = 'resultado-badge ' + nivel;
+
+                // Atualiza também o badge de Risco no grid
+                const riscoEl = document.getElementById('reg-risco');
+                if (riscoEl) riscoEl.textContent = d.classificacao || '---';
+
+            } catch(e) { console.error('Erro ao ler resultado da matriz:', e); }
+        }
+
+    </script>
+    </main>
+</body>
+
+</html>
