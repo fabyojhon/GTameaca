@@ -506,12 +506,12 @@
                 </svg>
                 <span>Setup</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" onclick="solicitarMatriculaAssessor(event)">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span>F0000001</span>
+                <span class="sidebar-assessor-text">Fxxxxxxx</span>
             </a>
         </div>
     </aside>
@@ -675,6 +675,141 @@
 
         </div>
     </main>
+
+    <script>
+        // ═══ UTILITÁRIOS ════════════════════════════════════════════════════════════════════════
+        const CANAL_EMOJIS = {
+            'Telefone': '☎️',
+            'Mensagem': '✉️',
+            'Presencial': '👤',
+            'Ouvidoria': '📢',
+            'Outros': '🔗'
+        };
+
+        function obterEmoji(canal) {
+            return CANAL_EMOJIS[canal] || '🔗';
+        }
+
+        // ═══ CARREGADOR DINÂMICO DE ATENDIMENTOS ═══════════════════════════════════════════════
+
+        function determinarStatus(atendId) {
+            // Verifica o status do atendimento baseado nos dados salvos
+            const atendimento = JSON.parse(localStorage.getItem('atendimento_' + atendId) || '{}');
+            const matriz = JSON.parse(localStorage.getItem('matrizResultado_' + atendId) || '{}');
+            const pareceres = JSON.parse(localStorage.getItem('pareceres_setores') || '{}');
+
+            // Se tem matriz completa com risco alto, status é "Aguardando Parecer"
+            if (matriz.pontuacao && matriz.pontuacao >= 13) {
+                // Verificar se todos os setores responderam
+                const setoresId = ['usi', 'gepes-assessoramento', 'gepes-especializadas', 'supers'];
+                const todosRespondidos = setoresId.every(s => pareceres[s] && pareceres[s].respondido);
+                
+                if (todosRespondidos) {
+                    return { status: 'Finalizado', classe: 'status-concluido' };
+                } else {
+                    return { status: 'Aguardando Parecer', classe: 'status-andamento' };
+                }
+            }
+
+            // Se tem matriz mas risco baixo/médio
+            if (matriz.pontuacao) {
+                return { status: 'Analisado', classe: 'status-concluido' };
+            }
+
+            // Se só tem o atendimento inicial
+            if (atendimento.nome) {
+                return { status: 'Em Análise', classe: 'status-andamento' };
+            }
+
+            return { status: 'Pendente', classe: 'status-cancelado' };
+        }
+
+        function formatarData(dataStr) {
+            if (!dataStr) return '--';
+            try {
+                const d = new Date(dataStr);
+                return ('0' + d.getDate()).slice(-2) + '/' + 
+                       ('0' + (d.getMonth() + 1)).slice(-2) + '/' + 
+                       d.getFullYear();
+            } catch(e) {
+                return dataStr;
+            }
+        }
+
+        function carregarAtendimentos() {
+            const tbody = document.querySelector('table tbody');
+            if (!tbody) return;
+
+            // Limpar linhas existentes (exceto a demo)
+            const linhasExistentes = Array.from(tbody.querySelectorAll('tr')).slice(1);
+            linhasExistentes.forEach(tr => tr.remove());
+
+            // Buscar todos os atendimentos no localStorage
+            const atendimentos = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const chave = localStorage.key(i);
+                if (chave.startsWith('atendimento_')) {
+                    const atendId = chave.replace('atendimento_', '');
+                    try {
+                        const dados = JSON.parse(localStorage.getItem(chave));
+                        atendimentos.push({
+                            id: atendId,
+                            ...dados
+                        });
+                    } catch(e) {}
+                }
+            }
+
+            // Ordenar por mais recente primeiro
+            atendimentos.sort((a, b) => {
+                const timeA = new Date(a.dataFato || a.dataRegistro || 0).getTime();
+                const timeB = new Date(b.dataFato || b.dataRegistro || 0).getTime();
+                return timeB - timeA;
+            });
+
+            // Renderizar cada atendimento
+            atendimentos.forEach(atend => {
+                const statusInfo = determinarStatus(atend.id);
+                const dataFato = formatarData(atend.dataFato || atend.dataRegistro);
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${atend.id.substring(3, 10)}</td>
+                    <td>${atend.nome || '---'}</td>
+                    <td>${dataFato}</td>
+                    <td><span class="channel-icon" title="${atend.canal || 'Telefone'}">
+                        ${obterEmoji(atend.canal || 'Telefone')}
+                    </span></td>
+                    <td>Ameaça</td>
+                    <td>${atend.matricula || '---'}</td>
+                    <td>
+                        <div class="status-pill ${statusInfo.classe}">
+                            <span class="status-dot"></span> ${statusInfo.status}
+                        </div>
+                    </td>
+                    <td class="action-arrow" onclick="abrirAtendimento('${atend.id}')">&rsaquo;</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function abrirAtendimento(atendId) {
+            sessionStorage.setItem('atendimentoId', atendId);
+            // Redirecionar para manifestações se tem matriz, senão para identificação
+            const matriz = localStorage.getItem('matrizResultado_' + atendId);
+            if (matriz) {
+                window.location.href = 'manifestacoes.html';
+            } else {
+                window.location.href = 'identificacao.html';
+            }
+        }
+
+        // Carregar atendimentos ao iniciar a página
+        document.addEventListener('DOMContentLoaded', carregarAtendimentos);
+
+        // Atualizar a cada 30 segundos (sincronização em tempo real)
+        setInterval(carregarAtendimentos, 30000);
+    </script>
 
 </body>
 

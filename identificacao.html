@@ -481,6 +481,7 @@
             opacity: 1;
         }
     </style>
+    <script src="js/script.js"></script>
 </head>
 
 <body>
@@ -534,12 +535,12 @@
                 </svg>
                 <span>Setup</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" onclick="solicitarMatriculaAssessor(event)">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span>F0000001</span>
+                <span class="sidebar-assessor-text">Fxxxxxxx</span>
             </a>
         </div>
     </aside>
@@ -606,13 +607,16 @@
 
                     <div class="grid-2">
                         <div class="form-group">
-                            <label>Canal da Ameaça</label>
-                            <div class="channel-icons">
-                                <span class="channel-icon active" title="Telefone">&#9742;</span>
-                                <span class="channel-icon" title="Mensagem">&#9993;</span>
-                                <span class="channel-icon" title="Presencial">&#128100;</span>
-                                <span class="channel-icon" title="Ouvidoria">&#128227;</span>
-                                <span class="channel-icon" title="Outros">&#8230;</span>
+                            <label>Canal de Atendimento</label>
+                            <div style="display: flex; align-items: center; gap: 0.8rem; background-color: #f9fafb; padding: 0.75rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                                <select id="canal-select" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; background-color: white; font-size: 0.95rem; cursor: pointer; color: var(--text-main);">
+                                    <option value="Telefone">☎️ Telefone</option>
+                                    <option value="Mensagem">✉️ Mensagem / WhatsApp</option>
+                                    <option value="Presencial">👤 Presencial</option>
+                                    <option value="Ouvidoria">📢 Ouvidoria</option>
+                                    <option value="Outros">🔗 Outros (Redes Sociais)</option>
+                                </select>
+                                <div id="canal-display" style="font-size: 1.5rem; min-width: 2rem; text-align: center;">☎️</div>
                             </div>
                         </div>
 
@@ -722,12 +726,24 @@
                     <div class="actions">
                         <button type="button" class="btn btn-danger-outline" onclick="window.location.reload()">CANCELAR
                             REGISTRO</button>
-                        <button type="button" class="btn btn-primary-outline" onclick="salvarTxt()">SALVAR COMO RASCUNHO</button>
-                        <a href="matriz.html" class="btn btn-primary" onclick="salvarTxt()">MATRIZ DE RISCO</a>
+                        <button type="button" class="btn btn-primary-outline" onclick="salvarRascunho()">SALVAR COMO RASCUNHO</button>
+                        <a href="matriz.html" class="btn btn-primary" onclick="persistirAtendimento()">MATRIZ DE RISCO</a>
                     </div>
                 </form>
 
                 <script>
+                    // ─── Mapa de emojis por canal ────────────────────────────────────────────
+                    const canalEmojis = {
+                        'Telefone': '☎️',
+                        'Mensagem': '✉️',
+                        'Presencial': '👤',
+                        'Ouvidoria': '📢',
+                        'Outros': '🔗'
+                    };
+
+                    // ─── Variável global para armazenar canal selecionado ────────────────────────
+                    let selectedChannel = 'Telefone'; // default
+
                     // ─── Inicialização: data/hora automática + ID de atendimento ────────────────
                     (function init() {
                         // 1. Preencher data/hora automaticamente
@@ -747,8 +763,26 @@
                         // 2. Gerar/restaurar ID único de atendimento
                         let atendId = sessionStorage.getItem('atendimentoId');
                         if (!atendId) {
-                            atendId = 'AT-' + Date.now();
+                            atendId = gerarIdAtendimento();
                             sessionStorage.setItem('atendimentoId', atendId);
+                        }
+
+                        // 3. Evento listener para seleção de canal no dropdown
+                        const selectCanal = document.getElementById('canal-select');
+                        if (selectCanal) {
+                            selectCanal.addEventListener('change', function() {
+                                selectedChannel = this.value;
+                                // Atualizar emoji display
+                                const display = document.getElementById('canal-display');
+                                if (display) {
+                                    display.textContent = canalEmojis[selectedChannel] || '🔗';
+                                }
+                                // Persistir imediatamente
+                                persistirAtendimento();
+                            });
+                            // Inicializar com valor default
+                            selectedChannel = selectCanal.value;
+                            document.getElementById('canal-display').textContent = canalEmojis[selectedChannel];
                         }
                     })();
 
@@ -793,60 +827,18 @@
                             telefone: document.getElementById('contato').value.trim(),
                             unidade: document.getElementById('unidade').value.trim(),
                             dataFato: document.getElementById('data-fato').value,
-                            dataRegistro: new Date().toLocaleString('pt-BR')
+                            dataRegistro: new Date().toLocaleString('pt-BR'),
+                            canal: selectedChannel,
+                            assessor: localStorage.getItem('assessorLigado') || 'Fxxxxxxx'
                         };
                         localStorage.setItem('atendimento_' + atendId, JSON.stringify(dados));
                         // Chave simples para acesso rápido da última sessão
                         localStorage.setItem('atendimentoAtivo', atendId);
                     }
 
-                    // ─── Salvar como arquivo .txt ────────────────────────────────────────────────
-                    function salvarTxt() {
-                        const nome = document.getElementById('nome-relator').value.trim();
-                        const matricula = document.getElementById('matricula').value.trim();
-                        const telefone = document.getElementById('contato').value.trim();
-                        const unidade = document.getElementById('unidade').value.trim();
-                        const dataFato = document.getElementById('data-fato').value;
-                        const classificacaoEl = document.querySelector('input[name="classificacao-envolvimento"]:checked');
-                        const classificacao = classificacaoEl ? classificacaoEl.value : 'Não informado';
-                        const relato = document.getElementById('relato').value.trim();
-                        const vitima = document.getElementById('relator-vitima').checked ? 'Sim' : 'Não';
-
-                        const now = new Date();
-                        const timestamp = now.toLocaleString('pt-BR');
+                    // ─── Salvar Rascunho ────────────────────────────────────────────────
+                    function salvarRascunho() {
                         persistirAtendimento();
-
-                        const conteudo =
-`=== IDENTIFICAÇÃO DE OCORRÊNCIA INICIAL ===
-Data do Registro: ${timestamp}
-
---- DADOS DO RELATOR ---
-Nome:          ${nome || 'Não informado'}
-Matrícula:     ${matricula || 'Não informado'}
-Telefone:      ${telefone || 'Não informado'}
-Unidade:       ${unidade || 'Não informado'}
-Relator é vítima: ${vitima}
-
---- DADOS DO FATO ---
-Data e Hora do Fato: ${dataFato || 'Não informado'}
-Classificação do Envolvimento: ${classificacao}
-
---- DESCRIÇÃO ---
-${relato || 'Sem descrição.'}
-
-==========================================`;
-
-                        const blob = new Blob([conteudo], { type: 'text/plain; charset=utf-8' });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        const nomeArquivo = `GT_Ameaça_${nome.replace(/\s+/g,'_') || 'rascunho'}_${now.toISOString().slice(0,10)}.txt`;
-                        a.download = nomeArquivo;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        URL.revokeObjectURL(url);
-
                         document.getElementById('status-text').style.display = 'flex';
                         setTimeout(() => { document.getElementById('status-text').style.display = 'none'; }, 3000);
                     }

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Índice - G.T. Ameaça</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #1e293b;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .card-link:hover {
+            transform: scale(1.05);
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #1e293b;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .feature {
+            padding: 20px;
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            border-radius: 6px;
+        }
+
+        .feature h3 {
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            height: 30px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .timeline-content h3 {
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .breadcrumb {
+            color: white;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">Bem-vindo ao sistema</div>
+            <h1>🎯 G.T. Ameaça</h1>
+            <p>Sistema de Gestão de Denúncias de Ameaça - Gepes Atendimento</p>
+        </header>
+
+        <!-- QUICK START -->
+        <div class="grid">
+            <div class="card" onclick="window.location.href='demo.html'">
+                <div class="card-icon">🚀</div>
+                <h2>Início Rápido</h2>
+                <p>Comece agora com dados de teste pré-carregados. Perfeito para explorar o sistema.</p>
+                <a href="demo.html" class="card-link">Abrir Demo →</a>
+                <span class="badge">RECOMENDADO</span>
+            </div>
+
+            <div class="card" onclick="window.location.href='index.html'">
+                <div class="card-icon">📋</div>
+                <h2>Fila de Atendimentos</h2>
+                <p>Visualize todos os atendimentos com status em tempo real e integração completa.</p>
+                <a href="index.html" class="card-link">Acessar →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📖</div>
+                <h2>Documentação</h2>
+                <p>Leia guias completos, fluxos, exemplos e como usar cada funcionalidade.</p>
+                <a href="#docs" class="card-link">Explorar →</a>
+            </div>
+        </div>
+
+        <!-- FLUXO -->
+        <div class="section">
+            <h2>🔄 Fluxo de Operação</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-content">
+                        <h3>Registrar Atendimento</h3>
+                        <p><a href="identificacao.html" style="color: #667eea; text-decoration: none;">→ identificacao.html</a></p>
+                        <p>Preencha nome, matrícula, telefone e relato dos fatos</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-content">
+                        <h3>Avaliar Risco</h3>
+                        <p><a href="matriz.html" style="color: #667eea; text-decoration: none;">→ matriz.html</a></p>
+                        <p>Preencha 6 eixos e sistema calcula score automático (0-18 pts)</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-content">
+                        <h3>Atribuir Pareceres</h3>
+                        <p><a href="manifestacoes.html" style="color: #667eea; text-decoration: none;">→ manifestacoes.html</a></p>
+                        <p>Se risco alto, selecione setores e preencha pareceres</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">✓</div>
+                    <div class="timeline-content">
+                        <h3>Acompanhar na Fila</h3>
+                        <p><a href="index.html" style="color: #667eea; text-decoration: none;">→ index.html</a></p>
+                        <p>Visualize status em tempo real na fila de atendimentos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECURSOS -->
+        <div class="section" id="docs">
+            <h2>📚 Documentação & Guias</h2>
+
+            <div class="feature-list">
+                <div class="feature">
+                    <h3>📖 Fluxo Integrado</h3>
+                    <p>Documentação completa da arquitetura, estrutura de dados e integração entre todas as páginas. Inclui diagramas e exemplos.</p>
+                    <p><a href="FLUXO_INTEGRADO.md" style="color: #667eea; text-decoration: none;">Leia →</a></p>
+                </div>
+
+                <div class="feature">
+                    <h3>📘 Guia do Usuário</h3>
+                    <p>Manual completo de como usar o sistema. Inclui passo-a-passo, screenshots e troubleshooting.</p>
+                    <p><a href="README.md" style="color: #667eea; text-decoration: none;">Leia →</a></p>
+                </div>
+
+                <div class="feature">
+                    <h3>🧪 Guia de Teste</h3>
+                    <p>Plano de teste com 8 cenários completos. Verificações, edge cases e checklist para garantir qualidade.</p>
+                    <p><a href="GUIDE_DE_TESTE.md" style="color: #667eea; text-decoration: none;">Leia →</a></p>
+                </div>
+
+                <div class="feature">
+                    <h3>📊 Sumário Executivo</h3>
+                    <p>Visão geral técnica. O que foi implementado, métricas, testes realizados e próximas fases.</p>
+                    <p><a href="SUMARIO_EXECUTIVO.md" style="color: #667eea; text-decoration: none;">Leia →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUNCIONALIDADES -->
+        <div class="section">
+            <h2>✨ Funcionalidades Principais</h2>
+
+            <div class="feature-list">
+                <div class="feature">
+                    <h3>✅ Registro Completo</h3>
+                    <p>Captura dados do relator, fato, classificação e relato para documentação oficial</p>
+                </div>
+
+                <div class="feature">
+                    <h3>📊 Matriz de Risco</h3>
+                    <p>6 eixos de avaliação com cálculo automático (0-18 pts) e classificação</p>
+                </div>
+
+                <div class="feature">
+                    <h3>🔀 Setores Dinâmicos</h3>
+                    <p>Dropdown com USI, Gepes, Especializadas e Superintendências. Responde conforme necessário</p>
+                </div>
+
+                <div class="feature">
+                    <h3>📝 Formulário Inteligente</h3>
+                    <p>Pré-preenchido com dados do atendimento + campo para parecer + redirecionamento automático</p>
+                </div>
+
+                <div class="feature">
+                    <h3>⏱️ Prazos Dinâmicos</h3>
+                    <p>Calculados automaticamente em dias (1/3/5/7) conforme setor e risco</p>
+                </div>
+
+                <div class="feature">
+                    <h3>📋 Fila Integrada</h3>
+                    <p>Todos os atendimentos com status calculado em tempo real. Sincroniza a cada 30s</p>
+                </div>
+
+                <div class="feature">
+                    <h3>💾 Offline-First</h3>
+                    <p>Funciona 100% sem internet. localStorage persiste dados indefinidamente</p>
+                </div>
+
+                <div class="feature">
+                    <h3>🎨 UI Responsiva</h3>
+                    <p>Interface profissional que funciona em desktop, tablet e mobile</p>
+                </div>
+            </div>
+
+            <div class="stats" style="margin-top: 40px;">
+                <div class="stat-box">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Páginas Principais</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">900+</div>
+                    <div class="stat-label">Linhas Alteradas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">1200+</div>
+                    <div class="stat-label">Linhas Novas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Testado</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVEGAÇÃO RÁPIDA -->
+        <div class="section">
+            <h2>🗺️ Navegação Rápida</h2>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-btn">📋 Fila</a>
+                <a href="identificacao.html" class="nav-btn">✏️ Registrar</a>
+                <a href="matriz.html" class="nav-btn">📊 Matriz</a>
+                <a href="manifestacoes.html" class="nav-btn">💬 Manifestações</a>
+                <a href="demo.html" class="nav-btn">🚀 Demo</a>
+                <a href="FLUXO_INTEGRADO.md" class="nav-btn">📖 Fluxo</a>
+                <a href="README.md" class="nav-btn">📘 README</a>
+                <a href="GUIDE_DE_TESTE.md" class="nav-btn">🧪 Testes</a>
+            </div>
+        </div>
+
+        <!-- DICAS -->
+        <div class="section" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-left: 4px solid #667eea;">
+            <h2>💡 Dicas de Uso</h2>
+
+            <div style="display: grid; gap: 20px;">
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🚀 Para Começar Agora</h3>
+                    <p style="color: #64748b;">Abra <a href="demo.html" style="color: #667eea; font-weight: 600;">demo.html</a> e clique em "Criar Demo: Risco ALTO". O sistema pré-preencherá dados e você poderá seguir o fluxo completo.</p>
+                </div>
+
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">📊 Para Entender a Integração</h3>
+                    <p style="color: #64748b;">Leia <a href="FLUXO_INTEGRADO.md" style="color: #667eea; font-weight: 600;">FLUXO_INTEGRADO.md</a> para ver diagrama completo de como os dados fluem entre as páginas.</p>
+                </div>
+
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🧪 Para Testar Completamente</h3>
+                    <p style="color: #64748b;">Siga o <a href="GUIDE_DE_TESTE.md" style="color: #667eea; font-weight: 600;">GUIDE_DE_TESTE.md</a> com 8 testes passo-a-passo que cobrem todos os cenários.</p>
+                </div>
+
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🐛 Para Debugar</h3>
+                    <p style="color: #64748b;">Abra Console (F12) e visualize localStorage com: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">JSON.parse(localStorage.getItem('atendimento_AT-...'))</code></p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>G.T. Ameaça v1.0 | Gepes Atendimento | Sistema de Gestão de Denúncias</p>
+            <p style="margin-top: 10px; opacity: 0.7;">Última atualização: 23/03/2026</p>
+        </footer>
+    </div>
+</body>
+</html>

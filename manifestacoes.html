@@ -309,7 +309,261 @@
         .resultado-score.low     { color: #166534; }
         .resultado-score.medium  { color: #92400e; }
         .resultado-score.high    { color: #991b1b; }
+
+        /* SETOR SELECTOR */
+        .setor-selector {
+            padding: 15px;
+            background: #f9fafb;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .setor-selector label {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .setor-dropdown {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            min-width: 200px;
+            font-size: 14px;
+        }
+
+        .setor-status {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
+
+        .setor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .setor-badge.pendente {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .setor-badge.completo {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* PARECER SETOR */
+        .parecer-setor {
+            padding: 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .parecer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .parecer-titulo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .parecer-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 6px;
+        }
+
+        .parecer-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .parecer-info-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .parecer-info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .parecer-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .form-group textarea,
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-enviar, .btn-cancelar, .btn-voltar-ao-setor {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-enviar {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-enviar:hover {
+            background: #15803d;
+        }
+
+        .btn-cancelar, .btn-voltar-ao-setor {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-cancelar:hover, .btn-voltar-ao-setor:hover {
+            background: #e2e8f0;
+        }
+
+        .parecer-respondido {
+            padding: 15px;
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .parecer-respondido-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #166534;
+            margin-bottom: 10px;
+        }
+
+        .parecer-respondido-texto {
+            color: #166534;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .tabs-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .historico-manifestacao {
+            padding: 12px;
+            background: #f8fafc;
+            border-left: 3px solid #3b82f6;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .historico-header {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .historico-data {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .historico-texto {
+            font-size: 14px;
+            color: #475569;
+            white-space: pre-wrap;
+        }
     </style>
+    <script src="js/script.js"></script>
 </head>
 
 <body>
@@ -364,12 +618,12 @@
                 </svg>
                 <span>Setup</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item nav-item-assessor" onclick="solicitarMatriculaAssessor(event)" title="Clique para fazer login">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span>F0000001</span>
+                <span class="sidebar-assessor-text" id="span-matAssessor">Fxxxxxxx</span>
             </a>
         </div>
     </aside>
@@ -394,8 +648,11 @@
             </div>
         </header>
 
-    <div class="header" style="background:#f1f5f9; border-bottom:1px solid #e2e8f0; border-top:1px solid #e2e8f0; border-left:none; border-right:none;">
-        <button class="btn-voltar" onclick="window.location.href='identificacao.html'">◀ Voltar para Atendimento</button>
+    <div class="header" style="background:#f1f5f9; border-bottom:1px solid #e2e8f0; border-top:1px solid #e2e8f0; border-left:none; border-right:none; display: flex; gap: 1rem; align-items: center;">
+        <div style="display: flex; gap: 1rem;">
+            <button class="btn-voltar" onclick="window.location.href='identificacao.html'">◀ Voltar para Atendimento</button>
+            <a href="identificacao.html" class="secondary-btn" style="margin-top: 0; text-decoration: none; display: flex; align-items: center; justify-content: center;">Retornar ao Atendimento</a>
+        </div>
         <strong id="header-tit">Detalhar Denúncia: ...</strong>
     </div>
 
@@ -418,7 +675,7 @@
 
                 <div>
                     <div class="label">Assessor</div>
-                    <div class="value">Fxxxxxxx</div>
+                    <div class="value" id="reg-assessor">---</div>
                 </div>
 
                 <div>
@@ -434,7 +691,7 @@
 
                 <div>
                     <div class="label">Origem</div>
-                    <div class="value">Canal de Ética</div>
+                    <div class="value" id="reg-origem">---</div>
                 </div>
 
                 <div>
@@ -456,18 +713,39 @@
 
         <!-- ABAS -->
         <div class="box">
-            <div class="tabs">
-                <div class="tab active" onclick="trocarAba(event, 'manifestacoes')">MANIFESTAÇÕES</div>
-                <div class="tab" onclick="trocarAba(event, 'anexos')">ANEXOS</div>
+            <div class="tabs-section">
+                <button class="tab-btn active" onclick="trocarAbaPrincipal(event, 'manifestacoes-tab')">MANIFESTAÇÕES</button>
+                <button class="tab-btn" onclick="trocarAbaPrincipal(event, 'anexos-tab')">ANEXOS</button>
             </div>
 
-            <!-- MANIFESTAÇÕES -->
-            <div id="manifestacoes">
-                <!-- Conteúdo dinâmico aqui -->
+            <!-- MANIFESTAÇÕES PRINCIPAL -->
+            <div id="manifestacoes-tab" class="tab-content active">
+                <!-- Seletor de Setores -->
+                <div class="setor-selector">
+                    <label>Atribuir Parecer a:</label>
+                    <select class="setor-dropdown" id="setorDropdown" onchange="selecionarSetor(this.value)">
+                        <option value="">-- Selecione um Setor --</option>
+                        <option value="usi">USI (Unidade de Segurança Integrada)</option>
+                        <option value="gepes-assessoramento">Gepes Assessoramento</option>
+                        <option value="gepes-especializadas">Gepes Especializadas</option>
+                        <option value="supers">Superintendências</option>
+                    </select>
+                    <div class="setor-status" id="setoresStatus"></div>
+                </div>
+
+                <!-- Histórico de Manifestações Iniciais -->
+                <div id="manifestacoes-historico" style="padding: 20px;">
+                    <!-- Conteúdo dinâmico aqui -->
+                </div>
+
+                <!-- Container de Parecer do Setor -->
+                <div id="parecer-setor-container" style="padding: 20px; display: none;">
+                    <!-- Parecer do setor será renderizado aqui -->
+                </div>
             </div>
 
             <!-- ANEXOS -->
-            <div id="anexos" style="display:none; padding:15px;">
+            <div id="anexos-tab" class="tab-content" style="padding:15px;">
                 <p>Nenhum anexo encontrado.</p>
             </div>
 
@@ -505,7 +783,32 @@
             }
         ];
 
+        // Definição dos setores
+        const SETORES = {
+            'usi': {
+                nome: 'USI (Unidade de Segurança Integrada)',
+                sigla: 'USI',
+                prazo: 1
+            },
+            'gepes-assessoramento': {
+                nome: 'Gepes Assessoramento',
+                sigla: 'Gepes Assessor.',
+                prazo: 3
+            },
+            'gepes-especializadas': {
+                nome: 'Gepes Especializadas',
+                sigla: 'Gepes Espec.',
+                prazo: 5
+            },
+            'supers': {
+                nome: 'Superintendências',
+                sigla: 'Supers',
+                prazo: 7
+            }
+        };
+
         const STORAGE_KEY = 'manifestacoes_estado';
+        const STORAGE_SETORES_KEY = 'pareceres_setores';
 
         function carregarEstado() {
             const raw = localStorage.getItem(STORAGE_KEY);
@@ -517,91 +820,545 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
         }
 
+        function carregarPareceres() {
+            const raw = localStorage.getItem(STORAGE_SETORES_KEY);
+            if (!raw) return {};
+            try { return JSON.parse(raw); } catch(e) { return {}; }
+        }
+
+        function salvarPareceres(pareceres) {
+            localStorage.setItem(STORAGE_SETORES_KEY, JSON.stringify(pareceres));
+        }
+
         let manifestacoes = carregarEstado();
+        let pareceres = carregarPareceres();
+        let setorAtivo = null;
+        let denuncia = {...MOCK_DENUNCIA};
+        let scoreMatriz = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
             carregar();
             carregarResultadoMatriz();
         });
 
-        function carregar() {
-            let den = {...MOCK_DENUNCIA};
+        function calcularPrazo(score) {
+            if (score >= 17) return 1;
+            if (score >= 15) return 3;
+            return 5;
+        }
 
+        function carregar() {
             const atendId = sessionStorage.getItem('atendimentoId') || localStorage.getItem('atendimentoAtivo');
+            let dataAtendimento = '';
+            
             if (atendId) {
                 const rawAtend = localStorage.getItem('atendimento_' + atendId);
                 if (rawAtend) {
                     try {
                         const atend = JSON.parse(rawAtend);
-                        den.numero = atend.id || den.numero;
+                        denuncia.numero = atend.id || denuncia.numero;
                         if (atend.dataFato) {
-                            // converte T para espaço (ex: 2026-03-19T10:00 -> 2026-03-19 10:00)
-                            den.registro = atend.dataFato.replace('T', ' ');
+                            dataAtendimento = atend.dataFato.replace('T', ' ');
+                            denuncia.registro = dataAtendimento;
                         } else if (atend.dataRegistro) {
-                            den.registro = atend.dataRegistro;
+                            dataAtendimento = atend.dataRegistro;
+                            denuncia.registro = dataAtendimento;
                         }
                     } catch(e) {}
                 }
+                
+                const rawMatriz = localStorage.getItem('matrizResultado_' + atendId);
+                if (rawMatriz) {
+                    try {
+                        const matrizData = JSON.parse(rawMatriz);
+                        scoreMatriz = matrizData.pontuacao || 0;
+                    } catch(e) {}
+                }
+
+                // Restaurar pareceres usando novo gerenciador
+                if (db) {
+                    const pareceresSalvos = db.obterPareceres(atendId);
+                    if (pareceresSalvos && Object.keys(pareceresSalvos).length > 0) {
+                        pareceres = pareceresSalvos;
+                        console.log('✅ Pareceres restaurados do banco: ' + atendId);
+                    }
+                }
             }
 
-            document.getElementById('header-tit').innerText = 'Detalhar Denúncia: ' + den.numero;
-            document.getElementById('reg-data').innerText = den.registro;
-            document.getElementById('reg-status').innerText = den.status;
-            document.getElementById('reg-classificacao').innerText = den.classificacao;
-            document.getElementById('reg-risco').innerText = den.risco;
+            document.getElementById('header-tit').innerText = 'Detalhar Denúncia: ' + denuncia.numero;
+            document.getElementById('reg-data').innerText = denuncia.registro;
+            document.getElementById('reg-status').innerText = denuncia.status;
+            document.getElementById('reg-classificacao').innerText = denuncia.classificacao;
+            document.getElementById('reg-risco').innerText = denuncia.risco;
+
+            if (atendId) {
+                const rawAtend = localStorage.getItem('atendimento_' + atendId);
+                if (rawAtend) {
+                    try {
+                        const atend = JSON.parse(rawAtend);
+                        document.getElementById('reg-assessor').innerText = atend.assessor || localStorage.getItem('assessorLigado') || 'Fxxxxxxx';
+                        const canal = atend.canal || 'Telefone';
+                        document.getElementById('reg-origem').innerText = obterEmoji(canal) + ' ' + canal;
+                    } catch(e) {}
+                }
+            }
+            
+            manifestacoes.forEach(function(item) {
+                item.prazo = calcularPrazo(scoreMatriz);
+                item.data = dataAtendimento || item.data;
+            });
+            
             renderizarManifestacoes(manifestacoes);
+            atualizarStatusSetores();
         }
 
         function renderizarManifestacoes(lista) {
-            const container = document.getElementById('manifestacoes');
+            const container = document.getElementById('manifestacoes-historico');
             container.innerHTML = '';
+            
+            // Título
+            const titulo = document.createElement('h3');
+            titulo.style.marginTop = '0';
+            titulo.style.marginBottom = '20px';
+            titulo.style.color = '#1e293b';
+            titulo.textContent = 'Manifestações Iniciais';
+            container.appendChild(titulo);
+
             lista.forEach(function(item) {
-                const isRespondido = item.status === 'Respondido';
                 const card = document.createElement('div');
-                card.className = 'card';
-                const situacaoHtml = isRespondido
-                    ? '<strong style="color:green">&#10004; Respondido</strong>'
-                    : '<strong style="color:#c27c00">&#9203; Pendente (' + (item.prazo - 1) + ' dias restantes)</strong>';
-                const labelTxt = item.id === 1 ? 'Solicitação de Manifestação' : 'Parecer';
-                const btnHtml = !isRespondido ? '<button onclick="enviar(' + item.id + ')">Enviar</button>' : '';
-                card.innerHTML =
-                    '<div class="subgrid">' +
-                        '<div><div class="label">Responsável</div><div class="value">' + item.responsavel + '</div></div>' +
-                        '<div><div class="label">Data Solicitação</div><div class="value">' + item.data + '</div></div>' +
-                        '<div><div class="label">Prazo</div><div class="value">' + item.prazo + ' dias</div></div>' +
-                        '<div><div class="label">Situação</div><div id="status-' + item.id + '" class="status ' + (isRespondido ? 'ok' : 'pendente') + '">' + situacaoHtml + '</div></div>' +
-                    '</div>' +
-                    '<div class="section">' +
-                        '<div class="label">' + labelTxt + '</div>' +
-                        '<textarea id="txt-' + item.id + '" ' + (isRespondido ? 'disabled' : '') + '>' + (item.texto || '') + '</textarea>' +
-                        btnHtml +
-                    '</div>';
+                card.className = 'historico-manifestacao';
+                
+                const header = document.createElement('div');
+                header.className = 'historico-header';
+                header.textContent = item.responsavel;
+                
+                const data = document.createElement('div');
+                data.className = 'historico-data';
+                data.textContent = 'Data: ' + item.data + ' | Prazo: ' + item.prazo + ' dias';
+                
+                const texto = document.createElement('div');
+                texto.className = 'historico-texto';
+                texto.textContent = item.texto;
+                
+                card.appendChild(header);
+                card.appendChild(data);
+                card.appendChild(texto);
                 container.appendChild(card);
             });
         }
 
-        function trocarAba(event, aba) {
-            document.getElementById('manifestacoes').style.display = 'none';
-            document.getElementById('anexos').style.display = 'none';
-            document.getElementById(aba).style.display = 'block';
-            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-            event.currentTarget.classList.add('active');
+        function atualizarStatusSetores() {
+            const statusDiv = document.getElementById('setoresStatus');
+            statusDiv.innerHTML = '';
+            
+            Object.keys(SETORES).forEach(key => {
+                const setor = SETORES[key];
+                const temParecer = pareceres[key] && pareceres[key].respondido;
+                
+                const badge = document.createElement('div');
+                badge.className = 'setor-badge ' + (temParecer ? 'completo' : 'pendente');
+                
+                const icon = temParecer ? '✓' : '○';
+                badge.textContent = icon + ' ' + setor.sigla;
+                
+                statusDiv.appendChild(badge);
+            });
         }
 
-        function enviar(id) {
-            const texto = document.getElementById('txt-' + id).value;
-            if (!texto.trim()) { alert('Preencha o campo antes de enviar!'); return; }
-            const item = manifestacoes.find(function(m) { return m.id === id; });
-            if (item) { item.texto = texto; item.status = 'Respondido'; }
-            salvarEstado(manifestacoes);
-            const statusEl = document.getElementById('status-' + id);
-            statusEl.innerHTML = '<strong style="color:green">&#10004; Respondido</strong>';
-            statusEl.classList.remove('pendente');
-            statusEl.classList.add('ok');
-            document.getElementById('txt-' + id).disabled = true;
-            const btn = document.querySelector('button[onclick="enviar(' + id + ')"]');
-            if (btn) btn.remove();
-            alert('Enviado com sucesso! (modo demonstração — salvo localmente)');
+        function selecionarSetor(setorId) {
+            if (!setorId) {
+                document.getElementById('parecer-setor-container').style.display = 'none';
+                setorAtivo = null;
+                return;
+            }
+
+            setorAtivo = setorId;
+            renderizarParecer(setorId);
+            document.getElementById('parecer-setor-container').style.display = 'block';
+        }
+
+        function renderizarParecer(setorId) {
+            const setor = SETORES[setorId];
+            if (!setor) return;
+
+            const container = document.getElementById('parecer-setor-container');
+            container.innerHTML = '';
+
+            // Verificar se já tem parecer respondido
+            const parecer = pareceres[setorId] || { respondido: false, data: '', texto: '', medidas: '' };
+
+            if (parecer.respondido) {
+                // Mostrar parecer já respondido
+                const respondidoDiv = document.createElement('div');
+                respondidoDiv.className = 'parecer-respondido';
+                
+                const header = document.createElement('div');
+                header.className = 'parecer-respondido-header';
+                header.innerHTML = '✓ Parecer Respondido';
+                respondidoDiv.appendChild(header);
+                
+                const info = document.createElement('div');
+                info.style.marginBottom = '12px';
+                info.innerHTML = '<strong>Data da Resposta:</strong> ' + parecer.data;
+                respondidoDiv.appendChild(info);
+                
+                const ptext = document.createElement('div');
+                ptext.innerHTML = '<strong>Parecer:</strong>';
+                respondidoDiv.appendChild(ptext);
+                
+                const texto = document.createElement('div');
+                texto.className = 'parecer-respondido-texto';
+                texto.textContent = parecer.texto;
+                respondidoDiv.appendChild(texto);
+                
+                if (parecer.medidas) {
+                    const mtext = document.createElement('div');
+                    mtext.style.marginTop = '12px';
+                    mtext.innerHTML = '<strong>Medidas Tomadas:</strong>';
+                    respondidoDiv.appendChild(mtext);
+                    
+                    const medidas = document.createElement('div');
+                    medidas.className = 'parecer-respondido-texto';
+                    medidas.textContent = parecer.medidas;
+                    respondidoDiv.appendChild(medidas);
+                }
+                
+                const btnEditar = document.createElement('button');
+                btnEditar.className = 'btn-voltar-ao-setor';
+                btnEditar.style.marginTop = '15px';
+                btnEditar.textContent = 'Editar Parecer';
+                btnEditar.onclick = () => {
+                    parecer.respondido = false;
+                    renderizarParecer(setorId);
+                };
+                respondidoDiv.appendChild(btnEditar);
+                
+                container.appendChild(respondidoDiv);
+            } else {
+                // Mostrar formulário para preencher parecer
+                const card = document.createElement('div');
+                card.className = 'parecer-setor';
+
+                // Header
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'parecer-header';
+                
+                const titulo = document.createElement('div');
+                titulo.className = 'parecer-titulo';
+                titulo.textContent = 'Parecer - ' + setor.nome;
+                headerDiv.appendChild(titulo);
+                
+                container.appendChild(headerDiv);
+
+                // Informações pré-preenchidas
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'parecer-info';
+                
+                const denuInfo = document.createElement('div');
+                denuInfo.className = 'parecer-info-item';
+                const denuLabel = document.createElement('div');
+                denuLabel.className = 'parecer-info-label';
+                denuLabel.textContent = 'Denúncia Nº';
+                const denuValue = document.createElement('div');
+                denuValue.className = 'parecer-info-value';
+                denuValue.textContent = denuncia.numero;
+                denuInfo.appendChild(denuLabel);
+                denuInfo.appendChild(denuValue);
+                infoDiv.appendChild(denuInfo);
+
+                const riscInfo = document.createElement('div');
+                riscInfo.className = 'parecer-info-item';
+                const riscLabel = document.createElement('div');
+                riscLabel.className = 'parecer-info-label';
+                riscLabel.textContent = 'Classificação';
+                const riscValue = document.createElement('div');
+                riscValue.className = 'parecer-info-value';
+                riscValue.textContent = denuncia.classificacao;
+                riscInfo.appendChild(riscLabel);
+                riscInfo.appendChild(riscValue);
+                infoDiv.appendChild(riscInfo);
+
+                const dataInfo = document.createElement('div');
+                dataInfo.className = 'parecer-info-item';
+                const dataLabel = document.createElement('div');
+                dataLabel.className = 'parecer-info-label';
+                dataLabel.textContent = 'Data Denúncia';
+                const dataValue = document.createElement('div');
+                dataValue.className = 'parecer-info-value';
+                dataValue.textContent = denuncia.registro;
+                dataInfo.appendChild(dataLabel);
+                dataInfo.appendChild(dataValue);
+                infoDiv.appendChild(dataInfo);
+
+                const prazoInfo = document.createElement('div');
+                prazoInfo.className = 'parecer-info-item';
+                const prazoLabel = document.createElement('div');
+                prazoLabel.className = 'parecer-info-label';
+                prazoLabel.textContent = 'Prazo';
+                const prazoValue = document.createElement('div');
+                prazoValue.className = 'parecer-info-value';
+                
+                // Badge de prazo com cor baseada em gravidade
+                const brazoBadge = document.createElement('span');
+                brazoBadge.style.display = 'inline-block';
+                brazoBadge.style.marginRight = '8px';
+                brazoBadge.style.paddingTop = '4px';
+                brazoBadge.style.paddingBottom = '4px';
+                brazoBadge.style.paddingLeft = '8px';
+                brazoBadge.style.paddingRight = '8px';
+                brazoBadge.style.borderRadius = '6px';
+                brazoBadge.style.fontWeight = 'bold';
+                brazoBadge.style.fontSize = '0.85rem';
+                brazoBadge.textContent = setor.prazo + ' dia(s)';
+
+                // Cor baseada no prazo
+                if (setor.prazo === 1) {
+                    brazoBadge.style.backgroundColor = '#fee2e2';
+                    brazoBadge.style.color = '#991b1b';
+                    brazoBadge.style.border = '2px solid #991b1b';
+                } else if (setor.prazo === 3) {
+                    brazoBadge.style.backgroundColor = '#fef9c3';
+                    brazoBadge.style.color = '#854d0e';
+                    brazoBadge.style.border = '2px solid #854d0e';
+                } else {
+                    brazoBadge.style.backgroundColor = '#dcfce7';
+                    brazoBadge.style.color = '#166534';
+                    brazoBadge.style.border = '2px solid #166534';
+                }
+
+                prazoValue.appendChild(brazoBadge);
+                prazoInfo.appendChild(prazoLabel);
+                prazoInfo.appendChild(prazoValue);
+                infoDiv.appendChild(prazoInfo);
+
+                // Data Limite (hoje + prazo dias)
+                const dataLimiteInfo = document.createElement('div');
+                dataLimiteInfo.className = 'parecer-info-item';
+                const dataLimiteLabel = document.createElement('div');
+                dataLimiteLabel.className = 'parecer-info-label';
+                dataLimiteLabel.textContent = 'Data Limite';
+                const dataLimiteValue = document.createElement('div');
+                dataLimiteValue.className = 'parecer-info-value';
+                
+                const agora = new Date();
+                agora.setDate(agora.getDate() + setor.prazo);
+                const dataLimiteFormatada = agora.toLocaleDateString('pt-BR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                dataLimiteValue.textContent = dataLimiteFormatada;
+                dataLimiteValue.style.fontWeight = '600';
+                
+                // Cor da data limite igual ao badge
+                if (setor.prazo === 1) {
+                    dataLimiteValue.style.color = '#991b1b';
+                } else if (setor.prazo === 3) {
+                    dataLimiteValue.style.color = '#854d0e';
+                } else {
+                    dataLimiteValue.style.color = '#166534';
+                }
+
+                dataLimiteInfo.appendChild(dataLimiteLabel);
+                dataLimiteInfo.appendChild(dataLimiteValue);
+                infoDiv.appendChild(dataLimiteInfo);
+
+                container.appendChild(infoDiv);
+
+                // Formulário
+                const formDiv = document.createElement('div');
+                formDiv.className = 'parecer-form';
+
+                // Parecer Texto
+                const parecerGroup = document.createElement('div');
+                parecerGroup.className = 'form-group';
+                const parecerLabel = document.createElement('label');
+                parecerLabel.textContent = 'Parecer / Análise';
+                const parecerTextarea = document.createElement('textarea');
+                parecerTextarea.id = 'parecer-texto-' + setorId;
+                parecerTextarea.placeholder = 'Digite aqui o parecer ou análise sobre a denúncia...';
+                parecerTextarea.value = parecer.texto || '';
+                
+                // Auto-save ao mudar
+                parecerTextarea.addEventListener('change', () => {
+                    salvarPareceresLocal(setorId);
+                });
+                parecerTextarea.addEventListener('blur', () => {
+                    salvarPareceresLocal(setorId);
+                });
+
+                parecerGroup.appendChild(parecerLabel);
+                parecerGroup.appendChild(parecerTextarea);
+                formDiv.appendChild(parecerGroup);
+
+                // Medidas Tomadas
+                const medidasGroup = document.createElement('div');
+                medidasGroup.className = 'form-group';
+                const medidasLabel = document.createElement('label');
+                medidasLabel.textContent = 'Medidas Tomadas / Recomendações';
+                const medidasTextarea = document.createElement('textarea');
+                medidasTextarea.id = 'medidas-texto-' + setorId;
+                medidasTextarea.placeholder = 'Descreva as medidas tomadas ou recomendações...';
+                medidasTextarea.value = parecer.medidas || '';
+                
+                // Auto-save ao mudar
+                medidasTextarea.addEventListener('change', () => {
+                    salvarPareceresLocal(setorId);
+                });
+                medidasTextarea.addEventListener('blur', () => {
+                    salvarPareceresLocal(setorId);
+                });
+
+                medidasGroup.appendChild(medidasLabel);
+                medidasGroup.appendChild(medidasTextarea);
+                formDiv.appendChild(medidasGroup);
+
+                // Redirecionar para outro setor?
+                const setoresGroup = document.createElement('div');
+                setoresGroup.className = 'form-group';
+                const setoresLabel = document.createElement('label');
+                setoresLabel.textContent = 'Encaminhar para outro Setor? (opcional)';
+                const setoresSelect = document.createElement('select');
+                setoresSelect.id = 'redirecionar-setor-' + setorId;
+                setoresSelect.style.padding = '12px';
+                setoresSelect.style.border = '1px solid #cbd5e1';
+                setoresSelect.style.borderRadius = '6px';
+                
+                const optionVazio = document.createElement('option');
+                optionVazio.value = '';
+                optionVazio.textContent = '-- Nenhum --';
+                setoresSelect.appendChild(optionVazio);
+
+                Object.keys(SETORES).forEach(key => {
+                    if (key !== setorId) {
+                        const opt = document.createElement('option');
+                        opt.value = key;
+                        opt.textContent = SETORES[key].nome;
+                        setoresSelect.appendChild(opt);
+                    }
+                });
+
+                setoresGroup.appendChild(setoresLabel);
+                setoresGroup.appendChild(setoresSelect);
+                formDiv.appendChild(setoresGroup);
+
+                container.appendChild(formDiv);
+
+                // Botões
+                const acoesDiv = document.createElement('div');
+                acoesDiv.className = 'form-actions';
+
+                const btnCancelar = document.createElement('button');
+                btnCancelar.className = 'btn-cancelar';
+                btnCancelar.textContent = 'Cancelar';
+                btnCancelar.onclick = () => {
+                    document.getElementById('setorDropdown').value = '';
+                    selecionarSetor('');
+                };
+                acoesDiv.appendChild(btnCancelar);
+
+                const btnEnviar = document.createElement('button');
+                btnEnviar.className = 'btn-enviar';
+                btnEnviar.textContent = 'Enviar Parecer';
+                btnEnviar.onclick = () => enviarParecer(setorId);
+                acoesDiv.appendChild(btnEnviar);
+
+                container.appendChild(acoesDiv);
+            }
+        }
+
+        function enviarParecer(setorId) {
+            const textoElement = document.getElementById('parecer-texto-' + setorId);
+            const medidasElement = document.getElementById('medidas-texto-' + setorId);
+            const redirecionarElement = document.getElementById('redirecionar-setor-' + setorId);
+
+            const texto = (textoElement && textoElement.value) || '';
+            const medidas = (medidasElement && medidasElement.value) || '';
+            const redirecionar = (redirecionarElement && redirecionarElement.value) || '';
+
+            if (!texto.trim()) {
+                alert('Por favor, preencha o parecer antes de enviar!');
+                return;
+            }
+
+            const atendId = sessionStorage.getItem('atendimentoId') || localStorage.getItem('atendimentoAtivo');
+
+            // Salvar parecer com novo gerenciador
+            pareceres[setorId] = {
+                respondido: true,
+                data: new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+                texto: texto,
+                medidas: medidas,
+                redirecionar: redirecionar
+            };
+
+            // Usar novo gerenciador de dados para salvar
+            if (atendId && db) {
+                db.salvarPareceres(atendId, pareceres);
+            } else {
+                salvarPareceres(pareceres);
+            }
+
+            atualizarStatusSetores();
+
+            alert('✓ Parecer enviado com sucesso!');
+
+            // Se há redirecionamento, ir para o próximo setor
+            if (redirecionar) {
+                document.getElementById('setorDropdown').value = redirecionar;
+                selecionarSetor(redirecionar);
+            } else {
+                // Ir para a fila de atendimentos (index.html)
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Função de auto-save de pareceres
+        function salvarPareceresLocal(setorId) {
+            const atendId = sessionStorage.getItem('atendimentoId') || 
+                            localStorage.getItem('atendimentoAtivo');
+            
+            if (!atendId) return;
+
+            const textoElement = document.getElementById('parecer-texto-' + setorId);
+            const medidasElement = document.getElementById('medidas-texto-' + setorId);
+            
+            const parecerData = {
+                respondido: false,
+                texto: (textoElement && textoElement.value) || '',
+                medidas: (medidasElement && medidasElement.value) || '',
+                dataEdicao: new Date().toISOString()
+            };
+
+            // Atualizar pareceres local
+            pareceres[setorId] = {
+                ...pareceres[setorId],
+                ...parecerData
+            };
+
+            // Usar novo gerenciador de dados
+            if (db) {
+                db.salvarPareceres(atendId, pareceres);
+            } else {
+                salvarPareceres(pareceres);
+            }
+
+            console.log('💾 Auto-save: ' + setorId);
+        }
+
+        function trocarAbaPrincipal(event, abaId) {
+            // Esconder todas as abas
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Mostrar aba clicada
+            document.getElementById(abaId).classList.add('active');
+            event.target.classList.add('active');
         }
 
         function carregarResultadoMatriz() {
@@ -609,14 +1366,12 @@
             const rawLinked = atendId ? localStorage.getItem('matrizResultado_' + atendId) : null;
             const rawFallback = localStorage.getItem('matrizResultado');
             
-            // Prioriza o resultado vinculado a este atendimento específico, cai pro fallback se não existe
             const raw = rawLinked || rawFallback;
 
             const scoreEl  = document.getElementById('resultado-score');
             const totalEl  = document.getElementById('resultado-total');
             const badgeEl  = document.getElementById('resultado-badge');
 
-            // segurança: elementos podem não existir
             if (!scoreEl || !totalEl || !badgeEl) return;
 
             if (!raw) {
@@ -638,7 +1393,6 @@
                 scoreEl.className = 'resultado-score ' + nivel;
                 badgeEl.className = 'resultado-badge ' + nivel;
 
-                // Atualiza também o badge de Risco no grid
                 const riscoEl = document.getElementById('reg-risco');
                 if (riscoEl) riscoEl.textContent = d.classificacao || '---';
 
@@ -646,6 +1400,7 @@
         }
 
     </script>
+
     </main>
 </body>
 
