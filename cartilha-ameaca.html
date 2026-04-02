@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartilha GT Ameaça - Gepes Atendimento</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:        #3b82f6;
+      --blue-dark:   #1d4ed8;
+      --blue-light:  #eff6ff;
+      --purple:      #7c5cfc;
+      --purple-light:#ede9fe;
+      --pink:        #f43f5e;
+      --amber:       #f59e0b;
+      --bg:          #f1f5f9;
+      --surface:     #ffffff;
+      --border:      #e2e8f0;
+      --text:        #1e293b;
+      --muted:       #64748b;
+      --radius:      8px;
+      --radius-lg:   12px;
+      --shadow:      0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:   0 4px 12px rgba(0,0,0,.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Top Bar ─────────────────────────────────── */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: var(--shadow);
+    }
+    .topbar .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: var(--radius);
+      font-size: .82rem; font-weight: 600;
+      color: var(--blue); background: var(--blue-light);
+      text-decoration: none; border: none; cursor: pointer;
+      font-family: inherit; transition: background .15s;
+    }
+    .topbar .back-btn:hover { background: #dbeafe; }
+    .topbar .back-btn svg { width: 16px; height: 16px; }
+    .topbar h1 { font-size: .95rem; font-weight: 600; color: var(--text); }
+
+    /* ── Layout ──────────────────────────────────── */
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    /* ── Hero Cover ──────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #7c5cfc 0%, #6d28d9 100%);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      padding: 4px 14px; border-radius: 20px;
+      font-size: .75rem; font-weight: 600;
+      letter-spacing: .5px; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h2 { font-size: 1.85rem; font-weight: 800; margin-bottom: 8px; }
+    .hero p { font-size: 1rem; opacity: .88; max-width: 520px; margin: 0 auto; }
+
+    /* ── Canais Box ──────────────────────────────── */
+    .canais-box {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      color: #fff;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-md);
+    }
+    .canais-box h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
+    .canais-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .canal-item {
+      background: rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .canal-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.1rem;
+    }
+    .canal-item strong { display: block; font-size: .85rem; }
+    .canal-item small { font-size: .75rem; opacity: .8; }
+
+    /* ── Section ─────────────────────────────────── */
+    .section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 1.3rem; font-weight: 700; color: var(--text);
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 3px solid var(--purple);
+      display: inline-block;
+    }
+    .section-intro {
+      font-size: .92rem; color: var(--muted); margin-bottom: 20px;
+      max-width: 700px;
+    }
+
+    /* ── Info Cards ──────────────────────────────── */
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .15s;
+    }
+    .info-card:hover { box-shadow: var(--shadow-md); }
+    .info-card h4 {
+      font-size: .95rem; font-weight: 700;
+      margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+    }
+    .info-card p { font-size: .88rem; color: var(--muted); line-height: 1.6; }
+    .info-card .tag {
+      display: inline-block; padding: 2px 10px;
+      border-radius: 20px; font-size: .7rem; font-weight: 600;
+    }
+    .tag-purple { background: var(--purple-light); color: var(--purple); }
+    .tag-red    { background: #fef2f2; color: #dc2626; }
+    .tag-amber  { background: #fffbeb; color: #b45309; }
+    .tag-blue   { background: var(--blue-light); color: var(--blue); }
+
+    /* ── Tipos Grid ──────────────────────────────── */
+    .tipos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .tipo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--purple);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .tipo-card h4 {
+      font-size: .88rem; font-weight: 700; color: var(--purple);
+      margin-bottom: 6px;
+    }
+    .tipo-card p { font-size: .82rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── Desvios Table ───────────────────────────── */
+    .desvio-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    .desvio-table th {
+      background: var(--purple);
+      color: #fff;
+      text-align: left;
+      padding: 12px 16px;
+      font-size: .8rem; font-weight: 600;
+    }
+    .desvio-table td {
+      padding: 14px 16px;
+      font-size: .84rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .desvio-table tr:last-child td { border-bottom: none; }
+    .desvio-table td:first-child { font-weight: 600; color: var(--text); min-width: 160px; }
+    .desvio-table td:last-child { color: var(--muted); }
+
+    /* ── Desvios Comportamentais List ────────────── */
+    .desvio-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .desvio-item h4 {
+      font-size: .88rem; font-weight: 700; color: #7c3aed;
+      margin-bottom: 4px;
+    }
+    .desvio-item p { font-size: .84rem; color: var(--muted); }
+
+    /* ── Exemplos (Comics) ───────────────────────── */
+    .exemplo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .exemplo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .exemplo-header {
+      padding: 14px 20px;
+      font-weight: 700; font-size: .88rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .exemplo-header.desvio { background: #fffbeb; color: #92400e; }
+    .exemplo-header.grave  { background: #fef2f2; color: #991b1b; }
+    .exemplo-body { padding: 16px 20px; }
+    .exemplo-body .frase {
+      font-style: italic; font-weight: 600;
+      font-size: .92rem; margin-bottom: 8px; color: var(--text);
+    }
+    .exemplo-body .analise {
+      font-size: .82rem; color: var(--muted); margin-bottom: 10px; line-height: 1.55;
+    }
+    .exemplo-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .etag {
+      font-size: .72rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .etag-green { background: #ecfdf5; color: #047857; }
+    .etag-red   { background: #fef2f2; color: #b91c1c; }
+    .etag-amber { background: #fffbeb; color: #92400e; }
+
+    /* ── Canais Apoio ────────────────────────────── */
+    .apoio-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .apoio-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.3rem;
+    }
+    .apoio-card h4 { font-size: .92rem; font-weight: 700; margin-bottom: 4px; }
+    .apoio-card p { font-size: .84rem; color: var(--muted); line-height: 1.55; }
+    .apoio-card a { color: var(--blue); font-weight: 600; font-size: .84rem; }
+
+    /* ── Callout ─────────────────────────────────── */
+    .callout {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+    .callout p { font-size: .88rem; color: var(--blue-dark); }
+    .callout strong { font-weight: 700; }
+
+    .callout-warn {
+      background: #fffbeb;
+      border-left-color: var(--amber);
+    }
+    .callout-warn p { color: #92400e; }
+
+    /* ── Footer ──────────────────────────────────── */
+    .page-footer {
+      text-align: center;
+      padding: 32px 0 0;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+    .page-footer p { font-size: .8rem; color: var(--muted); }
+    .page-footer .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px;
+      padding: 10px 22px; border-radius: var(--radius);
+      background: var(--blue); color: #fff;
+      text-decoration: none; font-weight: 600; font-size: .88rem;
+    }
+    .page-footer .back-link:hover { background: var(--blue-dark); }
+
+    /* ── Responsive ──────────────────────────────── */
+    @media (max-width: 640px) {
+      .page-wrap { padding: 20px 14px 48px; }
+      .hero { padding: 32px 20px; }
+      .hero h2 { font-size: 1.4rem; }
+      .canais-box { padding: 22px 18px; }
+      .tipos-grid { grid-template-columns: 1fr; }
+      .exemplo-grid { grid-template-columns: 1fr; }
+      .desvio-table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top Bar ──────────────────────────────────── -->
+<div class="topbar">
+  <a href="atendimentos.html#home" class="back-btn">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    Voltar
+  </a>
+  <h1>Cartilha GT Ameaça</h1>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ── Hero ──────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-badge">GT Ameaça &mdash; Gepes</div>
+    <h2>Cartilha de prevenção e orientação a ameaças e desvios de comportamento</h2>
+    <p>Juntos pela proteção, pelo respeito e pela segurança.</p>
+  </div>
+
+  <!-- ── Canais de Acolhimento ─────────────────── -->
+  <div class="canais-box">
+    <h3>Canais de acolhimento, orientação e denúncia</h3>
+    <div class="canais-grid">
+      <div class="canal-item">
+        <div class="canal-icon">📞</div>
+        <div>
+          <strong>Gepes Atendimento</strong>
+          <small>4003-5291 (capitais) | 0800 881 5291</small>
+        </div>
+      </div>
+      <div class="canal-item">
+        <div class="canal-icon">💬</div>
+        <div>
+          <strong>WhatsApp BB Funci</strong>
+          <small>Presencial, Central Telefônica</small>
+        </div>
+      </div>
+      <div class="canal-item">
+        <div class="canal-icon">🔒</div>
+        <div>
+          <strong>Canal de Ética e Denúncias</strong>
+          <small>0800 300 4455 &mdash; 24h, todos os dias</small>
+        </div>
+      </div>
+      <div class="canal-item">
+        <div class="canal-icon">📱</div>
+        <div>
+          <strong>Aplicativo BB / Site</strong>
+          <small>Menu Atendimento &gt; Canal de Ética</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Introdução ────────────────────────────── -->
+  <div class="section">
+    <div class="section-title">Introdução</div>
+    <p class="section-intro">A grave ameaça é uma forma de violência reconhecida pelo Código Penal brasileiro e representa uma violação séria à integridade física, psicológica e emocional das pessoas.</p>
+    <div class="callout">
+      <p>No BB, a promoção de um ambiente de trabalho <strong>seguro</strong>, <strong>ético</strong> e <strong>acolhedor</strong> é um compromisso institucional e parte fundamental da nossa cultura organizacional. A prevenção e o enfrentamento a condutas que representem risco, intimidação ou desvio comportamental fazem parte das diretrizes internas de integridade, comportamento e cuidado mútuo.</p>
+    </div>
+    <div class="info-card">
+      <p>Esta cartilha integra as iniciativas de conscientização do Banco do Brasil e tem como objetivo orientar colaboradores na identificação de situações de ameaça e de desvios comportamentais, além de apresentar os canais oficiais de suporte. Contamos com você para disseminar essas orientações, reforçar uma cultura de prevenção e contribuir para um ambiente seguro, ético e humanizado.</p>
+    </div>
+  </div>
+
+  <!-- ── O que é grave ameaça? ─────────────────── -->
+  <div class="section">
+    <div class="section-title">O que é grave ameaça?</div>
+    <div class="callout-warn callout">
+      <p>A grave ameaça é caracterizada por <strong>qualquer conduta que cause intimidação, medo ou sensação de risco à integridade física, emocional ou psicológica de uma pessoa</strong>. Trata-se de ato previsto no Código Penal brasileiro e que compromete a segurança individual, o bem-estar e as relações profissionais.</p>
+    </div>
+    <p class="section-intro">No Banco do Brasil, situações de ameaça ou intimidação são incompatíveis com o ambiente ético, seguro e acolhedor que buscamos promover. A grave ameaça pode ocorrer de diferentes formas:</p>
+
+    <div class="tipos-grid">
+      <div class="tipo-card">
+        <h4>Ameaça verbal</h4>
+        <p>Expressões ou declarações que indiquem intenção de causar mal injusto ou grave, gerando medo, insegurança ou constrangimento.</p>
+      </div>
+      <div class="tipo-card">
+        <h4>Ameaça gestual ou simbólica</h4>
+        <p>Gestos, sinais, objetos ou atitudes que transmitam risco ou intimidação percebida pela vítima.</p>
+      </div>
+      <div class="tipo-card">
+        <h4>Ameaça psicológica</h4>
+        <p>Condutas que provoquem tensão emocional, medo contínuo, controle, vigilância excessiva ou sensação de vulnerabilidade.</p>
+      </div>
+      <div class="tipo-card">
+        <h4>Coação ou intimidação</h4>
+        <p>Ações destinadas a forçar alguém a agir contra a sua vontade, manter silêncio ou impedir o exercício de direitos.</p>
+      </div>
+      <div class="tipo-card" style="grid-column: 1 / -1; border-left-color: #dc2626;">
+        <h4 style="color: #dc2626;">Intimidação profissional</h4>
+        <p>Uso inadequado de posição hierárquica, influência, autoridade ou acesso a informações para intimidar, restringir ou causar receio quanto a consequências pessoais ou profissionais.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>Situações dessa natureza devem ser <strong>identificadas, registradas e encaminhadas</strong> pelos canais institucionais apropriados, que garantem sigilo, orientação e proteção às pessoas envolvidas.</p>
+    </div>
+  </div>
+
+  <!-- ── Desvios Comportamentais ───────────────── -->
+  <div class="section">
+    <div class="section-title">O que são Desvios Comportamentais?</div>
+    <p class="section-intro">Desvios comportamentais são condutas, atitudes ou posturas que se afastam das normas internas, dos valores corporativos e das diretrizes éticas do Banco do Brasil. Esses comportamentos comprometem a segurança psicológica, o respeito mútuo, o clima organizacional e a integridade das relações de trabalho.</p>
+
+    <div class="desvio-item">
+      <h4>Falta de respeito e urbanidade</h4>
+      <p>Ações ou expressões que gerem constrangimento, desrespeito, humilhação, deboche ou tratamento inadequado a qualquer pessoa.</p>
+    </div>
+    <div class="desvio-item">
+      <h4>Comunicação agressiva ou inadequada</h4>
+      <p>Tom de voz, palavras, gestos ou atitudes que provoquem intimidação, conflito, exposição indevida ou insegurança emocional.</p>
+    </div>
+    <div class="desvio-item">
+      <h4>Ambiente hostil</h4>
+      <p>Atitudes reiteradas que prejudiquem a colaboração, a confiança, a segurança psicológica ou o bem-estar no ambiente de trabalho.</p>
+    </div>
+    <div class="desvio-item">
+      <h4>Vigilância indevida ou controle excessivo</h4>
+      <p>Monitoramento sem justificativa funcional, invasão de privacidade ou constrangimento por meio de acompanhamento não autorizado.</p>
+    </div>
+    <div class="desvio-item">
+      <h4>Omissão em situações críticas</h4>
+      <p>Falta de encaminhamento, registro ou comunicação em situações que envolvam ameaça, assédio, agressão ou qualquer violação das normas corporativas.</p>
+    </div>
+    <div class="desvio-item">
+      <h4>Uso inadequado de influência ou hierarquia</h4>
+      <p>Aproveitar-se de posição, conhecimento ou autoridade para pressionar, gerar constrangimento ou obter vantagens.</p>
+    </div>
+    <div class="desvio-item">
+      <h4>Comportamentos discriminatórios</h4>
+      <p>Falas, piadas ou atitudes que desrespeitem diferenças e promovam exclusão.</p>
+    </div>
+
+    <div class="callout">
+      <p>O Banco do Brasil mantém <strong>políticas, normas e instrumentos formais</strong> que orientam o comportamento esperado e asseguram um ambiente de trabalho ético, seguro e colaborativo. Quando identificados, os desvios comportamentais devem ser encaminhados aos canais institucionais responsáveis.</p>
+    </div>
+  </div>
+
+  <!-- ── Relação com Código de Ética ─────────── -->
+  <div class="section">
+    <div class="section-title">Desvios e o Código de Ética do BB</div>
+    <p class="section-intro">A relação entre cada tipo de desvio e os grandes temas previstos no Código de Ética do Banco do Brasil (2025–2026).</p>
+
+    <table class="desvio-table">
+      <thead>
+        <tr><th>Desvio</th><th>Relação com o Código de Ética</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Falta de respeito e urbanidade</td>
+          <td>Refere-se a condutas que violam a dignidade, a cordialidade e o ambiente saudável preconizados em Respeito ao Indivíduo. Conecta-se também às Boas Práticas de Relacionamento.</td>
+        </tr>
+        <tr>
+          <td>Comunicação agressiva ou inadequada</td>
+          <td>Envolve atitudes que contrariam as Boas Práticas de Relacionamento, orientando para comunicação respeitosa e prevenção de comportamentos que possam configurar assédio. Relaciona-se ao eixo de Respeito ao Indivíduo.</td>
+        </tr>
+        <tr>
+          <td>Ambiente hostil ou inseguro</td>
+          <td>Está relacionada ao eixo de Respeito ao Indivíduo, que assegura a segurança psicológica e a inclusão como fundamentos para um ambiente digno. Vincula-se às Boas Práticas de Relacionamento.</td>
+        </tr>
+        <tr>
+          <td>Vigilância indevida e controle excessivo</td>
+          <td>Relaciona-se ao eixo de Respeito ao Indivíduo, garantindo privacidade e dignidade. Conecta-se aos princípios de Propriedade da Informação e Segurança da Informação.</td>
+        </tr>
+        <tr>
+          <td>Omissão em situações de risco</td>
+          <td>Relaciona-se diretamente ao eixo de Dúvidas e Denúncias, que estabelece o dever de reportar desvios e zelar pela integridade do ambiente de trabalho. Vincula-se a Legalidade e Integridade.</td>
+        </tr>
+        <tr>
+          <td>Abuso de posição ou influência</td>
+          <td>Relaciona-se às Boas Práticas de Relacionamento e ao eixo de Conflito de Interesses, que determina o uso adequado da posição e a imparcialidade nas decisões.</td>
+        </tr>
+        <tr>
+          <td>Comportamentos discriminatórios</td>
+          <td>Relacionam-se ao eixo de Respeito ao Indivíduo, que prevê a valorização da diversidade, da equidade e da inclusão. Conectam-se às Boas Práticas de Relacionamento.</td>
+        </tr>
+        <tr>
+          <td>Divulgação indevida de informações</td>
+          <td>Relaciona-se ao eixo de Propriedade Intelectual e Informação, que estabelece o sigilo e o tratamento ético de dados. Vincula-se ao Uso Responsável das Mídias Digitais.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Exemplos de desvios comportamentais ──── -->
+  <div class="section">
+    <div class="section-title">Exemplos de desvios comportamentais</div>
+    <p class="section-intro">Situações ilustrativas para ajudar a distinguir desvios comportamentais de graves ameaças.</p>
+
+    <div class="exemplo-grid">
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 1</div>
+        <div class="exemplo-body">
+          <div class="frase">"Vamos ver no que isso vai dar."</div>
+          <div class="analise">A mensagem sugere insatisfação, mas não define violência, dano ou ameaça concreta. Deve ser tratada como comunicação inadequada.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Conduta a ser ajustada</span>
+            <span class="etag etag-amber">Pode sugerir tensões internas</span>
+            <span class="etag etag-red">Não é grave ameaça</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 2</div>
+        <div class="exemplo-body">
+          <div class="frase">"Você não perde por esperar."</div>
+          <div class="analise">Mensagem ambígua, sem descrição de dano físico ou intenção concreta. Deve ser tratada como possível infração disciplinar.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Comunicação inadequada</span>
+            <span class="etag etag-amber">Pode demandar apuração</span>
+            <span class="etag etag-red">Não há risco iminente</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 3</div>
+        <div class="exemplo-body">
+          <div class="frase">"Isso não vai ficar assim!"</div>
+          <div class="analise">É uma frase genérica, sem descrição de dano, sem direcionamento concreto e sem iminência. Caracteriza conflito, não grave ameaça.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Conflito interpessoal</span>
+            <span class="etag etag-amber">Linguagem inadequada</span>
+            <span class="etag etag-red">Não configura grave ameaça</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 4</div>
+        <div class="exemplo-body">
+          <div class="frase">"Você me paga!"</div>
+          <div class="analise">A frase expressa irritação, mas não detalha prejuízo, violência ou ação concreta. Não atende aos critérios de grave ameaça.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Possível desvio de conduta</span>
+            <span class="etag etag-amber">Necessita orientação</span>
+            <span class="etag etag-red">Não caracteriza grave ameaça</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 5</div>
+        <div class="exemplo-body">
+          <div class="frase">"Eu vou acabar com você!"</div>
+          <div class="analise">Apesar da fala agressiva, não houve descrição de dano físico, nem indicação de meio, nem sinal de iminência. Trata-se de conflito interpessoal com linguagem inadequada.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Funcionário x Funcionário</span>
+            <span class="etag etag-amber">Possível desvio de conduta</span>
+            <span class="etag etag-red">Não configura grave ameaça</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 6</div>
+        <div class="exemplo-body">
+          <div class="frase">"Isso é um absurdo!"</div>
+          <div class="analise">Houve descontrole emocional e postura inadequada, mas não houve ameaça dirigida a alguém nem promessa de agressão.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Desvio de conduta</span>
+            <span class="etag etag-amber">Medidas internas cabíveis</span>
+            <span class="etag etag-red">Não caracteriza grave ameaça</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 7</div>
+        <div class="exemplo-body">
+          <div class="frase">"Se prepare, isto vai ter volta."</div>
+          <div class="analise">Houve descontrole emocional e postura inadequada, mas não houve grave ameaça dirigida a alguém nem promessa de agressão real.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Desvio de conduta</span>
+            <span class="etag etag-amber">Medidas internas cabíveis</span>
+            <span class="etag etag-red">Não é grave ameaça</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exemplo-card">
+        <div class="exemplo-header desvio">⚠️ Exemplo 8</div>
+        <div class="exemplo-body">
+          <div class="frase">"Você fica me ignorando... Se continuar assim, você vai ver o que acontece."</div>
+          <div class="analise">A conduta do gestor foi inadequada, podendo ser tratada como um desvio de conduta. Porém, não é uma grave ameaça.</div>
+          <div class="exemplo-tags">
+            <span class="etag etag-amber">Uso indevido de ferramentas e palavras</span>
+            <span class="etag etag-amber">Conduta antiética</span>
+            <span class="etag etag-red">Não é grave ameaça</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Canais de Apoio Detalhados ──────────── -->
+  <div class="section">
+    <div class="section-title">Canais de acolhimento, orientação e denúncia</div>
+    <p class="section-intro">Em situações que envolvam grave ameaça, desvios comportamentais, constrangimento, intimidação ou qualquer conduta que gere preocupação, o Banco do Brasil disponibiliza canais oficiais de acolhimento e suporte.</p>
+
+    <div class="apoio-card">
+      <div class="apoio-icon" style="background: var(--blue-light); color: var(--blue);">📞</div>
+      <div>
+        <h4>Gepes Atendimento</h4>
+        <p>De segunda a sexta-feira, das 9h às 18h. Telefones <strong>4003-5291</strong> (regiões metropolitanas) e <strong>0800 881 5291</strong> (demais localidades). Presencial, Central Telefônica e WhatsApp BB Funci. A equipe está preparada para ouvir, orientar e direcionar cada situação de forma acolhedora, sigilosa e especializada.</p>
+      </div>
+    </div>
+
+    <div class="apoio-card">
+      <div class="apoio-icon" style="background: #fef2f2; color: #dc2626;">🔒</div>
+      <div>
+        <h4>Canal de Ética e Denúncias BB</h4>
+        <p>Quando a situação envolver conduta praticada por funcionário do BB ou demandar registro formal para avaliação ética ou disciplinar. Disponível pelo <strong>0800 300 4455</strong>, 24 horas por dia, todos os dias da semana, sem necessidade de identificação do denunciante. Também acessível pelo Aplicativo BB (menu "Atendimento") ou pelo site.</p>
+      </div>
+    </div>
+
+    <div class="apoio-card">
+      <div class="apoio-icon" style="background: #fffbeb; color: #b45309;">🏥</div>
+      <div>
+        <h4>Atendimento médico &mdash; CliniCassi</h4>
+        <p>Você pode acionar diretamente a CliniCassi mais próxima de você.</p>
+      </div>
+    </div>
+
+    <div class="apoio-card">
+      <div class="apoio-icon" style="background: var(--purple-light); color: var(--purple);">🧠</div>
+      <div>
+        <h4>Atendimento psicológico</h4>
+        <p>A Cassi Associados/Família conta com atendimento psicológico através do <strong>Telavita</strong>. Você também pode ter sessões de terapia gratuitas através do <strong>Wellz</strong> e <strong>Conexa</strong>, disponíveis para todos os funcionários ligados ao BB, mesmo os que não estão associados à Cassi.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ────────────────────────────────── -->
+  <div class="page-footer">
+    <p>Cuidar das pessoas é um compromisso permanente no Banco do Brasil.</p>
+    <a href="atendimentos.html#home" class="back-link">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      Voltar à Página Inicial
+    </a>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+- [ ] Refactor CSS in manifestacoes.html to use design tokens and improve spacing
+- [ ] Replace inline styles with class names, add .manifestacoes-page wrapper
+- [ ] Update pagination markup to use .pg-btn classes without inline styles
+- [ ] Ensure semantic headings and accessibility
+- [ ] Verify responsiveness and visual consistency
