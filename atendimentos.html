@@ -1988,8 +1988,8 @@ function fmtData(s) {
 
 function abrirAtendimento(id) {
   sessionStorage.setItem('atendimentoId', id);
-  regInitWizard(id);
-  navigateTo('registrar');
+  localStorage.setItem('atendimentoAtivo', id);
+  window.location.href = 'manifestacoes.html';
 }
 
 /* ═══════════════════════════════════════════════════════
