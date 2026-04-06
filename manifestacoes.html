@@ -546,6 +546,132 @@
             color: #475569;
             white-space: pre-wrap;
         }
+
+        /* Botões de Medidas Rápidas */
+        .btn-medida {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-medida:hover {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .alerta-setor {
+            padding: 12px;
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #9a3412;
+        }
+
+        .alerta-setor.alerta-grave {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .alerta-setor.alerta-info {
+            background: #eff6ff;
+            border-left-color: #3b82f6;
+            color: #1e40af;
+        }
+
+        /* Checklist de Governança */
+        .checklist-governanca {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 10px;
+        }
+
+        .checklist-governanca h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-top: 2px;
+            accent-color: #3b82f6;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        /* Painel de Sigilo */
+        .sigilo-panel {
+            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+
+        .sigilo-panel h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #854d0e;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sigilo-panel select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #fde047;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+        }
+
+        .sigilo-panel p {
+            font-size: 11px;
+            color: #92400e;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
     </style>
     <script src="js/script.js"></script>
 </head>
@@ -727,10 +853,14 @@
                     <label>Atribuir Parecer a:</label>
                     <select class="setor-dropdown" id="setorDropdown" onchange="selecionarSetor(this.value)">
                         <option value="">-- Selecione um Setor --</option>
-                        <option value="usi">USI (Unidade de Segurança Integrada)</option>
-                        <option value="gepes-assessoramento">Solicitar Manifestações</option>
-                        <option value="gepes-especializadas">Gepes Especializadas</option>
-                        <option value="supers">Superintendências</option>
+                        <option value="gepes-atendimento">GEPES Atendimento (Porta de Entrada)</option>
+                        <option value="usi">USI (Segurança Institucional)</option>
+                        <option value="disec">DISEC (Segurança Física / Proteção Patrimonial)</option>
+                        <option value="dipes-movimentacao">DIPES – Movimentação (Proteção Funcional)</option>
+                        <option value="dipes-consequencia">DIPES – Gestão da Consequência</option>
+                        <option value="ouvidoria">Ouvidoria / Canal de Ética</option>
+                        <option value="dijur">DIJUR (Consultoria Jurídica)</option>
+                        <option value="genap">GENAP (Execução Técnica / Ajustes Sistêmicos)</option>
                     </select>
                     <div class="setor-status" id="setoresStatus"></div>
                 </div>
@@ -807,27 +937,55 @@
             }
         ];
 
-        // Definição dos setores
+        // Definição dos setores (Tabela Única de Acionamento)
         const SETORES = {
+            'gepes-atendimento': {
+                nome: 'GEPES Atendimento (Porta de Entrada)',
+                sigla: 'GEPES',
+                prazo: 1,
+                descricao: 'Registro, triagem e orientação inicial de qualquer demanda'
+            },
             'usi': {
-                nome: 'USI (Unidade de Segurança Integrada)',
+                nome: 'USI (Segurança Institucional)',
                 sigla: 'USI',
-                prazo: 1
+                prazo: 1,
+                descricao: 'Risco real ou potencial à integridade, ameaça ou perseguição'
             },
-            'gepes-assessoramento': {
-                nome: 'Solicitar Manifestações',
-                sigla: 'Solicitar Manif.',
-                prazo: 3
+            'disec': {
+                nome: 'DISEC (Segurança Física)',
+                sigla: 'DISEC',
+                prazo: 2,
+                descricao: 'Segurança física, proteção de instalações ou mudança de local por risco patrimonial'
             },
-            'gepes-especializadas': {
-                nome: 'Gepes Especializadas',
-                sigla: 'Gepes Espec.',
-                prazo: 5
+            'dipes-movimentacao': {
+                nome: 'DIPES – Movimentação',
+                sigla: 'DIPES Mov.',
+                prazo: 3,
+                descricao: 'Análise normativa de remoções, ascensões e proteção funcional (ocultação estratégica)'
             },
-            'supers': {
-                nome: 'Superintendências',
-                sigla: 'Supers',
-                prazo: 7
+            'dipes-consequencia': {
+                nome: 'DIPES – Gestão da Consequência',
+                sigla: 'DIPES Cons.',
+                prazo: 5,
+                descricao: 'Efeitos disciplinares, impactos em GDP e evolução na carreira'
+            },
+            'ouvidoria': {
+                nome: 'Ouvidoria / Canal de Ética',
+                sigla: 'Ouvidoria',
+                prazo: 5,
+                descricao: 'Denúncias formais de assédio ou condutas que exijam tratamento independente'
+            },
+            'dijur': {
+                nome: 'DIJUR (Consultoria Jurídica)',
+                sigla: 'DIJUR',
+                prazo: 5,
+                descricao: 'Potencial jurídico, necessidade de B.O. ou judicialização'
+            },
+            'genap': {
+                nome: 'GENAP (Execução Técnica)',
+                sigla: 'GENAP',
+                prazo: 3,
+                descricao: 'Execução técnica e ajustes sistêmicos após decisões normativas da DIPES'
             }
         };
 
@@ -898,6 +1056,11 @@
 
             carregarInterface();
             carregarResultadoMatriz();
+
+            // Triagem inteligente baseada no score da matriz
+            if (window.scoreMatrizGlobal) {
+                sugerirSetorPorRisco(window.scoreMatrizGlobal);
+            }
         });
 
         function carregarInterface() {
@@ -1250,6 +1413,40 @@
                 parecerGroup.appendChild(parecerTextarea);
                 formDiv.appendChild(parecerGroup);
 
+                // Bloco de Acolhimento - Medidas Padronizadas
+                const acolhimentoGroup = document.createElement('div');
+                acolhimentoGroup.className = 'form-group';
+                const acolhimentoLabel = document.createElement('label');
+                acolhimentoLabel.textContent = 'Medidas de Acolhimento Padronizadas (Clique para incluir):';
+                acolhimentoGroup.appendChild(acolhimentoLabel);
+
+                const acolhimentoWrapper = document.createElement('div');
+                acolhimentoWrapper.style.cssText = 'display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0;';
+
+                const medidasAcolhimento = [
+                    { emoji: '📦', label: 'Movimentação', texto: 'Priorização de movimentação funcional (Art. 319 CPP)' },
+                    { emoji: '🔓', label: 'Flexibilizar Travas', texto: 'Flexibilização de trava institucional/relacionamento' },
+                    { emoji: '💻', label: 'TRE', texto: 'Trabalho Remoto (TRE) para preservação da integridade' },
+                    { emoji: '🗣️', label: 'Mediador', texto: 'Definição de interlocutor mediador entre as partes' },
+                    { emoji: '🧘', label: 'Apoio Psicológico', texto: 'Encaminhamento para suporte psicológico (CASSI/Wellz)' },
+                    { emoji: '🔄', label: 'Troca de Gestor', texto: 'Troca imediata de gestor imediato/linha de reporte' },
+                    { emoji: '🔒', label: 'Ocultação Estratégica', texto: 'Ocultação estratégica de dados funcionais para proteção (via DIPES)' },
+                    { emoji: '📋', label: 'B.O.', texto: 'Registro de Boletim de Ocorrência junto à autoridade policial competente' },
+                    { emoji: '💬', label: 'Bora Conversar', texto: 'Encaminhamento para programa Bora Conversar (apoio e escuta ativa)' }
+                ];
+
+                medidasAcolhimento.forEach(m => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'btn-medida';
+                    btn.textContent = m.emoji + ' ' + m.label;
+                    btn.onclick = () => addText('medidas-texto-' + setorId, m.texto);
+                    acolhimentoWrapper.appendChild(btn);
+                });
+
+                acolhimentoGroup.appendChild(acolhimentoWrapper);
+                formDiv.appendChild(acolhimentoGroup);
+
                 // Medidas Tomadas
                 const medidasGroup = document.createElement('div');
                 medidasGroup.className = 'form-group';
@@ -1301,6 +1498,37 @@
                 setoresGroup.appendChild(setoresSelect);
                 formDiv.appendChild(setoresGroup);
 
+                // Protocolo de Sigilo e Não Exposição
+                const sigiloPanel = document.createElement('div');
+                sigiloPanel.className = 'sigilo-panel';
+                sigiloPanel.innerHTML = `
+                    <h4>🔐 Protocolo de Sigilo e Não Exposição</h4>
+                    <select id="sigilo-nivel-${setorId}">
+                        <option value="">-- Selecione o nível de sigilo --</option>
+                        <option value="padrao">Sigilo Padrão (acesso restrito ao GT)</option>
+                        <option value="elevado">Sigilo Elevado (ocultação de dados funcionais)</option>
+                        <option value="maximo">Sigilo Máximo (sem registro nominal, código interno)</option>
+                    </select>
+                    <p>⚠️ Garantir que a movimentação não gere rótulos que causem revitimização. O tratamento deve preservar a dignidade do funcionário.</p>
+                `;
+                formDiv.appendChild(sigiloPanel);
+
+                // Checklist de Governança
+                const checklistDiv = document.createElement('div');
+                checklistDiv.className = 'checklist-governanca';
+                checklistDiv.innerHTML = `
+                    <h4>✅ Checklist Final de Governança</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check-provas-${setorId}">
+                        <label for="check-provas-${setorId}"><strong>Preservação de Provas:</strong> Foram anexados registros de Teams, e-mails ou Boletim de Ocorrência?</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check-apoio-${setorId}">
+                        <label for="check-apoio-${setorId}"><strong>Apoio Especializado:</strong> Foi oferecido encaminhamento para suporte psicológico (CASSI/Wellz) ou programa Bora Conversar?</label>
+                    </div>
+                `;
+                formDiv.appendChild(checklistDiv);
+
                 container.appendChild(formDiv);
 
                 // Botões
@@ -1330,13 +1558,29 @@
             const textoElement = document.getElementById('parecer-texto-' + setorId);
             const medidasElement = document.getElementById('medidas-texto-' + setorId);
             const redirecionarElement = document.getElementById('redirecionar-setor-' + setorId);
+            const sigiloElement = document.getElementById('sigilo-nivel-' + setorId);
+            const checkProvas = document.getElementById('check-provas-' + setorId);
+            const checkApoio = document.getElementById('check-apoio-' + setorId);
 
             const texto = (textoElement && textoElement.value) || '';
             const medidas = (medidasElement && medidasElement.value) || '';
             const redirecionar = (redirecionarElement && redirecionarElement.value) || '';
+            const sigilo = (sigiloElement && sigiloElement.value) || '';
 
             if (!texto.trim()) {
                 alert('Por favor, preencha o parecer antes de enviar!');
+                return;
+            }
+
+            // Validação do checklist de governança
+            if (checkProvas && !checkProvas.checked) {
+                alert('⚠️ Checklist obrigatório: Confirme a preservação de provas antes de enviar.');
+                checkProvas.focus();
+                return;
+            }
+            if (checkApoio && !checkApoio.checked) {
+                alert('⚠️ Checklist obrigatório: Confirme o encaminhamento para apoio especializado.');
+                checkApoio.focus();
                 return;
             }
 
@@ -1348,7 +1592,8 @@
                 data: new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
                 texto: texto,
                 medidas: medidas,
-                redirecionar: redirecionar
+                redirecionar: redirecionar,
+                sigilo: sigilo
             };
 
             // Usar novo gerenciador de dados para salvar
@@ -1391,6 +1636,49 @@
 
             // Salva no sistema de persistência robusto (script.js)
             db.salvarPareceres(atendId, pareceres);
+        }
+
+        // Função auxiliar para inserir texto de medidas padronizadas
+        function addText(targetId, text) {
+            const el = document.getElementById(targetId);
+            if (el) {
+                const val = el.value.trim();
+                el.value = val ? val + '\n- ' + text : '- ' + text;
+                el.dispatchEvent(new Event('change')); // Dispara o auto-save
+            }
+        }
+
+        // Lógica de Triagem Inteligente (Tabela Única de Acionamento)
+        function sugerirSetorPorRisco(score) {
+            const dropdown = document.getElementById('setorDropdown');
+            
+            if (score >= 13) {
+                // Risco Grave (13-18 pts): Acionamento imediato USI + DIPES
+                dropdown.value = 'usi';
+                selecionarSetor('usi');
+                exibirAviso(
+                    '🚨 Score Grave (' + score + ' pts): Acionamento prioritário — <strong>USI</strong> para risco à integridade e <strong>DIPES – Movimentação</strong> para proteção funcional imediata.',
+                    'grave'
+                );
+            } else if (score >= 7) {
+                // Risco Médio (7-12 pts): Foco em mediação
+                dropdown.value = 'gepes-atendimento';
+                selecionarSetor('gepes-atendimento');
+                exibirAviso(
+                    'ℹ️ Score Médio (' + score + ' pts): Sugerida triagem pela <strong>GEPES Atendimento</strong> com possível mediação administrativa.',
+                    'info'
+                );
+            }
+        }
+
+        function exibirAviso(msg, tipo) {
+            const container = document.getElementById('parecer-setor-container');
+            // Remove avisos anteriores
+            container.querySelectorAll('.alerta-setor').forEach(el => el.remove());
+            const aviso = document.createElement('div');
+            aviso.className = 'alerta-setor' + (tipo === 'grave' ? ' alerta-grave' : tipo === 'info' ? ' alerta-info' : '');
+            aviso.innerHTML = `<strong>Dica de Triagem:</strong> ${msg}`;
+            container.prepend(aviso);
         }
 
         function trocarAbaPrincipal(event, abaId) {
