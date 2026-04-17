@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matriz de Risco - Identificação de Possível Grave Ameaça</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/inter.css">
     <style>
         /* Base layout override */
         body {
@@ -271,36 +271,36 @@
                         <section class="axis-card">
                             <h2>Eixo 1 - Conteúdo</h2>
                             <div class="options-group" id="eixo1">
-                                <label class="radio-option">
-                                    <input type="radio" name="e1" value="0" required>
+                                <label class="radio-option" title="Xingamento isolado sem intenção de dano; reclamação exaltada; crítica agressiva">
+                                    <input type="radio" name="e1" value="0" required onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>0 Pontos</strong>
-                                        <span>Reclamação, xingamento, desabafo</span>
+                                        <span>Reclamação ou Desabafo</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e1" value="1">
+                                <label class="radio-option" title="'Você vai ver'; 'vai se arrepender' — sem indicar o que ocorrerá">
+                                    <input type="radio" name="e1" value="1" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>1 Ponto</strong>
-                                        <span>Ameaça vaga (ex.: você vai ver, vai se arrepender)</span>
+                                        <span>Ameaça Vaga</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e1" value="2">
+                                <label class="radio-option" title="Promessa de agressão, dano material ou quebra de bem">
+                                    <input type="radio" name="e1" value="2" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>2 Pontos</strong>
-                                        <span>Ameaça de dano específico e lesão</span>
+                                        <span>Ameaça de Dano Específico</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e1" value="3">
+                                <label class="radio-option" title="'Vou te matar'; 'vou te espancar'; sequestro anunciado">
+                                    <input type="radio" name="e1" value="3" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>3 Pontos</strong>
-                                        <span>Ameaça de morte direcionada, lesão ou sequestro</span>
+                                        <span>Ameaça de Morte ou Lesão Grave</span>
                                     </div>
                                 </label>
                             </div>
@@ -310,36 +310,36 @@
                         <section class="axis-card">
                             <h2>Eixo 2 - Violência prometida</h2>
                             <div class="options-group" id="eixo2">
-                                <label class="radio-option">
-                                    <input type="radio" name="e2" value="0" required>
+                                <label class="radio-option" title="Não há indicação de violência">
+                                    <input type="radio" name="e2" value="0" required onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>0 Pontos</strong>
                                         <span>Nenhuma</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e2" value="1">
+                                <label class="radio-option" title="Difamação, prejuízo econômico, exposição">
+                                    <input type="radio" name="e2" value="1" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>1 Ponto</strong>
-                                        <span>Prejuízo moral ou financeiro</span>
+                                        <span>Prejuízo Moral ou Financeiro</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e2" value="2">
+                                <label class="radio-option" title="Ofensas agressivas reiteradas; humilhação contínua">
+                                    <input type="radio" name="e2" value="2" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>2 Pontos</strong>
-                                        <span>Violência verbal genérica</span>
+                                        <span>Violência Verbal Genérica</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e2" value="3">
+                                <label class="radio-option" title="Agressão física; uso de arma; ameaça de morte">
+                                    <input type="radio" name="e2" value="3" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>3 Pontos</strong>
-                                        <span>Violência física grave ou letal</span>
+                                        <span>Violência Física Grave ou Letal</span>
                                     </div>
                                 </label>
                             </div>
@@ -349,36 +349,36 @@
                         <section class="axis-card">
                             <h2>Eixo 3 - Concretude</h2>
                             <div class="options-group" id="eixo3">
-                                <label class="radio-option">
-                                    <input type="radio" name="e3" value="0" required>
+                                <label class="radio-option" title="Nenhuma informação sobre como, quando ou onde">
+                                    <input type="radio" name="e3" value="0" required onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>0 Pontos</strong>
-                                        <span>Sem detalhes</span>
+                                        <span>Sem Detalhes</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e3" value="1">
+                                <label class="radio-option" title="Ameaça sem definição de meio ou alvo">
+                                    <input type="radio" name="e3" value="1" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>1 Ponto</strong>
-                                        <span>Ideia genérica</span>
+                                        <span>Ideia Genérica</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e3" value="2">
+                                <label class="radio-option" title="Citação de pessoa ou local específico">
+                                    <input type="radio" name="e3" value="2" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>2 Pontos</strong>
-                                        <span>Alvo, forma e local definidos</span>
+                                        <span>Alvo, Forma ou Local Definidos</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e3" value="3">
+                                <label class="radio-option" title="Pessoa identificada, método e local definidos">
+                                    <input type="radio" name="e3" value="3" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>3 Pontos</strong>
-                                        <span>Alvo + meio + local definidos</span>
+                                        <span>Alvo + Meio + Local</span>
                                     </div>
                                 </label>
                             </div>
@@ -388,36 +388,36 @@
                         <section class="axis-card">
                             <h2>Eixo 4 - Capacidade de ação</h2>
                             <div class="options-group" id="eixo4">
-                                <label class="radio-option">
-                                    <input type="radio" name="e4" value="0" required>
+                                <label class="radio-option" title="Autor não tem acesso, meios ou histórico">
+                                    <input type="radio" name="e4" value="0" required onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>0 Pontos</strong>
-                                        <span>Totalmente inverossímel</span>
+                                        <span>Inverossímil</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e4" value="1">
+                                <label class="radio-option" title="Autor distante; sem meios claros">
+                                    <input type="radio" name="e4" value="1" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>1 Ponto</strong>
-                                        <span>Pouco provável</span>
+                                        <span>Pouco Provável</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e4" value="2">
+                                <label class="radio-option" title="Conhece a vítima; acesso eventual">
+                                    <input type="radio" name="e4" value="2" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>2 Pontos</strong>
                                         <span>Possível</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e4" value="3">
+                                <label class="radio-option" title="Acesso direto; histórico de violência">
+                                    <input type="radio" name="e4" value="3" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>3 Pontos</strong>
-                                        <span>Real e viável</span>
+                                        <span>Real e Viável</span>
                                     </div>
                                 </label>
                             </div>
@@ -427,32 +427,32 @@
                         <section class="axis-card">
                             <h2>Eixo 5 - Proximidade temporal</h2>
                             <div class="options-group" id="eixo5">
-                                <label class="radio-option">
-                                    <input type="radio" name="e5" value="0" required>
+                                <label class="radio-option" title="Sem referência temporal">
+                                    <input type="radio" name="e5" value="0" required onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>0 Pontos</strong>
                                         <span>Indefinida</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e5" value="1">
+                                <label class="radio-option" title="Algo para o futuro distante">
+                                    <input type="radio" name="e5" value="1" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>1 Ponto</strong>
-                                        <span>Um dia</span>
+                                        <span>Um Dia</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e5" value="2">
+                                <label class="radio-option" title="Próximos dias ou semanas">
+                                    <input type="radio" name="e5" value="2" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>2 Pontos</strong>
-                                        <span>Em breve</span>
+                                        <span>Em Breve</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e5" value="3">
+                                <label class="radio-option" title="Agora; hoje; após o expediente">
+                                    <input type="radio" name="e5" value="3" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>3 Pontos</strong>
@@ -466,38 +466,131 @@
                         <section class="axis-card">
                             <h2>Eixo 6 - Histórico</h2>
                             <div class="options-group" id="eixo6">
-                                <label class="radio-option">
-                                    <input type="radio" name="e6" value="0" required>
+                                <label class="radio-option" title="Sem conflito prévio conhecido">
+                                    <input type="radio" name="e6" value="0" required onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>0 Pontos</strong>
                                         <span>Nenhum</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e6" value="1">
+                                <label class="radio-option" title="Discussões recorrentes; desentendimentos">
+                                    <input type="radio" name="e6" value="1" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>1 Ponto</strong>
-                                        <span>Conflitos verbais</span>
+                                        <span>Conflitos Verbais</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e6" value="2">
+                                <label class="radio-option" title="Registros ou relatos prévios de ameaça">
+                                    <input type="radio" name="e6" value="2" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>2 Pontos</strong>
-                                        <span>Ameaças anteriores</span>
+                                        <span>Ameaças Anteriores</span>
                                     </div>
                                 </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="e6" value="3">
+                                <label class="radio-option" title="Agressão física ou ocorrência policial anterior">
+                                    <input type="radio" name="e6" value="3" onchange="calculateRisk()">
                                     <span class="radio-custom"></span>
                                     <div class="option-text">
                                         <strong>3 Pontos</strong>
-                                        <span>Violência real anterior</span>
+                                        <span>Violência Real Anterior</span>
                                     </div>
                                 </label>
+                            </div>
+                        </section>
+
+                        <!-- Módulo de Perseguição (Stalking) -->
+                        <section class="axis-card" style="border-left: 5px solid #f43f5e;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h2 style="margin-bottom: 0;">Módulo de Perseguição (Stalking)</h2>
+                                <span class="badge-neutral">Fator Multiplicador &mdash; máx. 19 pts</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Responda <strong>Sim</strong> para cada comportamento identificado. Classificação: até 5 = Baixo risco &bull; 6&ndash;10 = Risco elevado &bull; 11+ = Grave ameaça com perseguição.</p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+
+                                <!-- Row 1: Reiteração da Conduta (3pts) -->
+                                <label class="checkbox-option" title="Critério: Elemento nuclear do tipo penal &mdash; Exemplos: Mensagens diárias; perseguição no trabalho">
+                                    <input type="checkbox" class="stalking-input" value="3" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Reiteração da Conduta (+3)</strong>
+                                        <span>A conduta ocorreu reiteradamente?</span>
+                                    </div>
+                                </label>
+
+                                <!-- Row 2: Meios Utilizados / Persistência (2pts) -->
+                                <label class="checkbox-option" title="Critério: Persistência após negativa da vítima &mdash; Exemplos: Bloqueios ignorados">
+                                    <input type="checkbox" class="stalking-input" value="2" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Meios Utilizados (+2)</strong>
+                                        <span>Após rejeição expressa, a conduta continuou?</span>
+                                    </div>
+                                </label>
+
+                                <!-- Row 3: Indesejamento (2pts) -->
+                                <label class="checkbox-option" title="Critério: Ameaça psicológica autônoma &mdash; Exemplos: Ansiedade; medo de circular">
+                                    <input type="checkbox" class="stalking-input" value="2" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Indesejamento (+2)</strong>
+                                        <span>Gerou medo, humilhação ou sofrimento emocional?</span>
+                                    </div>
+                                </label>
+
+                                <!-- Row 4: Ameaça Implícita ou Explícita (3pts) -->
+                                <label class="checkbox-option" title="Critério: Restrição ≠ privação &mdash; Exemplos: Evitar locais; mudar rotas">
+                                    <input type="checkbox" class="stalking-input" value="3" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Ameaça Implícita ou Explícita (+3)</strong>
+                                        <span>Dificultou o direito de ir e vir?</span>
+                                    </div>
+                                </label>
+
+                                <!-- Row 5: Impacto Psicológico (3pts) -->
+                                <label class="checkbox-option" title="Critério: Liberdade pessoal protegida &mdash; Exemplos: Deixar de socializar">
+                                    <input type="checkbox" class="stalking-input" value="3" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Impacto Psicológico (+3)</strong>
+                                        <span>Alterou hábitos ou comportamentos legítimos?</span>
+                                    </div>
+                                </label>
+
+                                <!-- Row 6: Restrição de Liberdade (3pts) -->
+                                <label class="checkbox-option" title="Critério: Proteção da privacidade/intimidade &mdash; Exemplos: Monitoramento digital">
+                                    <input type="checkbox" class="stalking-input" value="3" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Restrição de Liberdade (+3)</strong>
+                                        <span>Houve invasão ou vigilância indevida?</span>
+                                    </div>
+                                </label>
+
+                                <!-- Row 7: Vínculo Anterior / Meio (1pt) -->
+                                <label class="checkbox-option" title="Critério: Execução por qualquer meio &mdash; Exemplos: Cyberstalking">
+                                    <input type="checkbox" class="stalking-input" value="1" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Vínculo Anterior (+1)</strong>
+                                        <span>Ocorreu por qualquer meio (digital ou presencial)?</span>
+                                    </div>
+                                </label>
+
+                                <!-- Row 8: Escalada da Conduta (2pts) -->
+                                <label class="checkbox-option" title="Critério: Escalada típica do stalking &mdash; Exemplos: Mudança de rotina">
+                                    <input type="checkbox" class="stalking-input" value="2" onchange="calculateRisk()">
+                                    <span class="checkbox-custom"></span>
+                                    <div class="option-text">
+                                        <strong>Escalada da Conduta (+2)</strong>
+                                        <span>A conduta evoluiu forçando mudança do cotidiano?</span>
+                                    </div>
+                                </label>
+
                             </div>
                         </section>
 
@@ -560,7 +653,7 @@
                         <h3>Resultado da Avaliação</h3>
                         <div class="score-display">
                             <span id="total-score">0</span>
-                            <span class="max-score">/ 18</span>
+                            <span class="max-score">/ 37</span>
                         </div>
                         <div class="divider"></div>
                         <div class="category-display">

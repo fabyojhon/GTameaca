@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Central Gepes Atendimento - GT Ameaça</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts/inter.css">
   <style>
     /* ── Design Tokens ──────────────────────────────── */
     :root {
@@ -1240,7 +1240,8 @@
 
         <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
           <!-- GT Ameaça -->
-          <div class="stat-card" style="cursor:pointer" onclick="window.location.href='cartilha-ameaca.html'">
+          <div class="stat-card" style="cursor:pointer; border-top: 3px solid #f43f5e; position:relative;" onclick="regNovoAtendimento()">
+            <div style="position:absolute; top:10px; right:10px; background:#f43f5e; color:#fff; font-size:.65rem; font-weight:700; padding:2px 8px; border-radius:99px; letter-spacing:.04em;">REGISTRAR</div>
             <div class="stat-card-header">
               <div class="stat-icon red">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -1250,6 +1251,7 @@
             </div>
             <div class="stat-label" style="font-size:.95rem;font-weight:600;color:var(--text)">GT Ameaça</div>
             <div class="stat-label">Protocolo de ameaças dirigidas a funcionários</div>
+            <div style="margin-top:8px; font-size:.75rem; color:#f43f5e; font-weight:600;">&#128203; Iniciar Registro &rsaquo;</div>
           </div>
 
           <!-- GT Antidiscriminação -->
@@ -1449,11 +1451,15 @@
               <div class="reg-step-dot">2</div>
               <div class="reg-step-label">Descri&ccedil;&atilde;o</div>
             </div>
-            <div class="reg-step-item" data-step="3">
+            <div class="reg-step-item" data-step="3" id="reg-step-indicator-3" style="display:none">
               <div class="reg-step-dot">3</div>
-              <div class="reg-step-label">Matriz de Risco</div>
+              <div class="reg-step-label">Stalking</div>
             </div>
             <div class="reg-step-item" data-step="4">
+              <div class="reg-step-dot">4</div>
+              <div class="reg-step-label">Matriz de Risco</div>
+            </div>
+            <div class="reg-step-item" data-step="5">
               <div class="reg-step-dot">&check;</div>
               <div class="reg-step-label">Resumo</div>
             </div>
@@ -1540,6 +1546,20 @@
                 </div>
               </div>
             </div>
+            
+            <!-- Triagem de Stalking -->
+            <div style="margin-top:16px;margin-bottom:4px;padding:14px 16px;background:#fff1f2;border:1.5px solid #fecaca;border-left:4px solid #f43f5e;border-radius:8px;">
+              <div style="font-size:.8rem;font-weight:700;color:#9f1239;margin-bottom:10px;">&#128683; Sofreu ou está sofrendo Stalking / Perseguição?</div>
+              <div style="display:flex;gap:10px;">
+                <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #fecaca;border-radius:6px;cursor:pointer;background:#fff;" id="reg-stalking-sim-label">
+                  <input type="radio" name="reg-stalking" id="reg-stalking-sim" value="sim" onchange="regOnStalkingChange('sim')" style="accent-color:#e11d48;"> <div><strong style="font-size:.82rem;color:#9f1239;">Sim</strong><br><span style="font-size:.75rem;color:var(--muted);">Aplicar Qualificador de Perseguição</span></div>
+                </label>
+                <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:#fff;" id="reg-stalking-nao-label">
+                  <input type="radio" name="reg-stalking" id="reg-stalking-nao" value="nao" onchange="regOnStalkingChange('nao')" style="accent-color:#e11d48;"> <div><strong style="font-size:.82rem;">Não</strong><br><span style="font-size:.75rem;color:var(--muted);">Prosseguir direto para a Matriz</span></div>
+                </label>
+              </div>
+            </div>
+
             <div class="reg-card-footer">
               <div class="reg-footer-left">
                 <div class="reg-save-status" id="reg-save-status-1" style="display:none">
@@ -1555,7 +1575,7 @@
             </div>
           </div>
 
-          <!-- ════ STEP 2: Descrição ════════════════════ -->
+          <!-- ════ STEP 2: Descrição ════ -->
           <div id="reg-step-2" class="reg-step-panel" style="display:none">
             <div class="reg-form-group" style="margin-bottom:16px">
               <label style="justify-content:space-between">
@@ -1576,13 +1596,58 @@
               <div class="reg-footer-right">
                 <button class="reg-btn reg-btn-cancel" onclick="regCancelar()">CANCELAR</button>
                 <button class="reg-btn reg-btn-outline" onclick="regIrParaStep(1)">&lsaquo; ANTERIOR</button>
-                <button class="reg-btn reg-btn-primary" onclick="regIrParaStep(3)">PR&Oacute;XIMO &rsaquo;</button>
+                <button class="reg-btn reg-btn-primary" onclick="regAvancarDeDescricao()">PR&Oacute;XIMO &rsaquo;</button>
               </div>
             </div>
           </div>
 
-          <!-- ════ STEP 3: Matriz de Risco ═════════════ -->
+          <!-- ════ STEP 3: Qualificador de Stalking ════ -->
           <div id="reg-step-3" class="reg-step-panel" style="display:none">
+            <div style="background:linear-gradient(135deg,#9f1239,#e11d48);color:#fff;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div><div style="font-size:.72rem;opacity:.8;margin-bottom:4px;">Pontuação Stalking</div><div style="display:flex;align-items:baseline;gap:4px;"><span style="font-size:2.2rem;font-weight:800;line-height:1;" id="reg-stalking-score-val">0</span><span style="font-size:.9rem;opacity:.7;">/ 19 pts</span></div></div>
+              <span id="reg-stalking-score-badge" style="padding:4px 14px;border-radius:99px;font-size:.78rem;font-weight:700;background:rgba(255,255,255,.2);">Aguardando</span>
+            </div>
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px;padding:10px 14px;background:#fff1f2;border-radius:8px;border-left:3px solid #f43f5e;">Responda <strong style="color:#9f1239;">Sim</strong> (marque) para cada comportamento identificado. A pontuação atuará como <strong>qualificador contextual</strong> na Matriz de Risco.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Mensagens diárias; perseguição no trabalho">
+                <input type="checkbox" name="reg-sk" value="3" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Reiteração da Conduta <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">A conduta ocorreu reiteradamente?</div></div>
+              </label>
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Bloqueios ignorados">
+                <input type="checkbox" name="reg-sk" value="2" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Meios Utilizados <span style="color:#e11d48;">(+2)</span></div><div style="font-size:.77rem;color:var(--muted);">Após rejeição expressa, a conduta continuou?</div></div>
+              </label>
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Ansiedade; medo de circular">
+                <input type="checkbox" name="reg-sk" value="2" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Indesejamento <span style="color:#e11d48;">(+2)</span></div><div style="font-size:.77rem;color:var(--muted);">Gerou medo, humilhação ou sofrimento emocional?</div></div>
+              </label>
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Evitar locais; mudar rotas">
+                <input type="checkbox" name="reg-sk" value="3" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Ameaça Implícita/Explícita <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">Dificultou o direito de ir e vir?</div></div>
+              </label>
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Deixar de socializar">
+                <input type="checkbox" name="reg-sk" value="3" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Impacto Psicológico <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">Alterou hábitos ou comportamentos legítimos?</div></div>
+              </label>
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Monitoramento digital">
+                <input type="checkbox" name="reg-sk" value="3" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Restrição de Liberdade <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">Houve invasão ou vigilância indevida?</div></div>
+              </label>
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Cyberstalking">
+                <input type="checkbox" name="reg-sk" value="1" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Vínculo Anterior <span style="color:#e11d48;">(+1)</span></div><div style="font-size:.77rem;color:var(--muted);">Ocorreu por qualquer meio (digital ou presencial)?</div></div>
+              </label>
+              <label class="reg-axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Mudança de rotina">
+                <input type="checkbox" name="reg-sk" value="2" onchange="regCalcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Escalada da Conduta <span style="color:#e11d48;">(+2)</span></div><div style="font-size:.77rem;color:var(--muted);">A conduta evoluiu forçando mudança do cotidiano?</div></div>
+              </label>
+            </div>
+            <div class="reg-card-footer"><div class="reg-footer-left"></div><div class="reg-footer-right">
+              <button class="reg-btn reg-btn-cancel" onclick="regCancelar()">CANCELAR</button>
+              <button class="reg-btn reg-btn-outline" onclick="regIrParaStep(2)">&lsaquo; ANTERIOR</button>
+              <button class="reg-btn reg-btn-primary" onclick="regIrParaStep(4)">PR&Oacute;XIMO: MATRIZ &rsaquo;</button>
+            </div></div>
+          </div>
+
+          <!-- ════ STEP 4: Matriz de Risco ════ -->
+          <div id="reg-step-4" class="reg-step-panel" style="display:none">
+            <!-- Banner de contexto de Stalking -->
+            <div id="reg-stalking-context-banner" style="display:none;background:#fff1f2;border:1.5px solid #fecaca;border-left:4px solid #e11d48;border-radius:8px;padding:10px 14px;margin-bottom:14px;">
+              <div style="font-size:.72rem;font-weight:700;color:#9f1239;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">&#128683; Qualificador Contextual: Perseguição</div>
+              <div style="font-size:.85rem;color:#7f1d1d;">Pontuação Stalking: <strong id="reg-banner-stalking-score">0</strong> / 19 &nbsp;&bull;&nbsp; <strong id="reg-banner-stalking-class">—</strong></div>
+            </div>
             <div class="reg-score-widget">
               <div>
                 <div style="font-size:.75rem;opacity:.8;margin-bottom:4px">Pontua&ccedil;&atilde;o atual</div>
@@ -1644,14 +1709,14 @@
               <div class="reg-footer-left"></div>
               <div class="reg-footer-right">
                 <button class="reg-btn reg-btn-cancel" onclick="regCancelar()">CANCELAR</button>
-                <button class="reg-btn reg-btn-outline" onclick="regIrParaStep(2)">&lsaquo; ANTERIOR</button>
-                <button class="reg-btn reg-btn-primary" onclick="regIrParaStep(4)">PR&Oacute;XIMO &rsaquo;</button>
+              <button class="reg-btn reg-btn-outline" onclick="regVoltarDaMatriz()">&lsaquo; ANTERIOR</button>
+                <button class="reg-btn reg-btn-primary" onclick="regIrParaStep(5)">PR&Oacute;XIMO &rsaquo;</button>
               </div>
             </div>
           </div>
 
-          <!-- ════ STEP 4: Resumo ═══════════════════════ -->
-          <div id="reg-step-4" class="reg-step-panel" style="display:none">
+          <!-- ════ STEP 5: Resumo ════ -->
+          <div id="reg-step-5" class="reg-step-panel" style="display:none">
             <div class="reg-summary-section">
               <h4>Identifica&ccedil;&atilde;o</h4>
               <div class="reg-summary-grid">
@@ -1669,6 +1734,17 @@
               <h4>Descri&ccedil;&atilde;o da Ocorr&ecirc;ncia</h4>
               <div class="reg-summary-relato" id="reg-s-relato" style="color:var(--muted);font-style:italic">Sem descri&ccedil;&atilde;o</div>
             </div>
+            <!-- Bloco Stalking no Resumo -->
+            <div id="reg-s-stalking-section" style="display:none;margin-bottom:20px;">
+              <div class="reg-summary-section">
+                <h4>Qualificador de Perseguição (Stalking)</h4>
+                <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff1f2;border-radius:var(--radius);border:1px solid #fecaca;">
+                  <div><span style="font-size:.75rem;color:var(--muted);">Pontuação</span><div style="font-size:1.6rem;font-weight:800;color:#9f1239;" id="reg-s-stalking-score">0 / 19</div></div>
+                  <div style="flex:1;"><span style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px;">Classificação</span><span id="reg-s-stalking-class" style="padding:4px 12px;border-radius:99px;font-size:.85rem;font-weight:700;background:#fee2e2;color:#9f1239;">Aguardando</span></div>
+                </div>
+              </div>
+            </div>
+
             <div class="reg-summary-section">
               <h4>Resultado da Matriz de Risco</h4>
               <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;background:var(--bg);border-radius:var(--radius)">
@@ -1691,7 +1767,7 @@
               </div>
               <div class="reg-footer-right">
                 <button class="reg-btn reg-btn-cancel" onclick="regCancelar()">CANCELAR</button>
-                <button class="reg-btn reg-btn-outline" onclick="regIrParaStep(3)">&lsaquo; ANTERIOR</button>
+                <button class="reg-btn reg-btn-outline" onclick="regIrParaStep(4)">&lsaquo; ANTERIOR</button>
                 <button class="reg-btn reg-btn-outline" onclick="regSalvarRascunho()">FINALIZAR DEPOIS</button>
                 <button class="reg-btn reg-btn-primary" onclick="regFinalizar()">ENCAMINHAR PARA MANIFESTAÇÃO &rsaquo;</button>
               </div>
@@ -2341,6 +2417,65 @@ function regRestaurarDados() {
   }
 }
 
+/* ── Stalking ────────────────────────────────────────────── */
+function regOnStalkingChange(resp) {
+  const indicador = document.getElementById('reg-step-indicator-3');
+  const simLabel  = document.getElementById('reg-stalking-sim-label');
+  const naoLabel  = document.getElementById('reg-stalking-nao-label');
+  if (resp === 'sim') {
+    document.getElementById('reg-stalking-sim').checked = true;
+    if (indicador) indicador.style.display = '';
+    if (simLabel)  simLabel.style.borderColor = '#f43f5e';
+    if (naoLabel)  naoLabel.style.borderColor = 'var(--border)';
+  } else {
+    document.getElementById('reg-stalking-nao').checked = true;
+    if (indicador) indicador.style.display = 'none';
+    if (naoLabel)  naoLabel.style.borderColor = '#f43f5e';
+    if (simLabel)  simLabel.style.borderColor = 'var(--border)';
+  }
+}
+
+function regAvancarDeDescricao() {
+  const sim = document.getElementById('reg-stalking-sim');
+  regIrParaStep(sim && sim.checked ? 3 : 4);
+}
+
+function regVoltarDaMatriz() {
+  const sim = document.getElementById('reg-stalking-sim');
+  regIrParaStep(sim && sim.checked ? 3 : 2);
+}
+
+function regCalcStalkingScore() {
+  let total = 0;
+  document.querySelectorAll('input[name="reg-sk"]:checked').forEach(cb => { total += parseInt(cb.value); });
+  const el = document.getElementById('reg-stalking-score-val');
+  if (el) el.textContent = total;
+  let label = 'Aguardando', bg = 'rgba(255,255,255,.2)';
+  if (total >= 1  && total <= 5)  { label = 'Baixo Risco';                    bg = 'rgba(16,185,129,.8)'; }
+  if (total >= 6  && total <= 10) { label = 'Risco Elevado';                  bg = 'rgba(245,158,11,.8)'; }
+  if (total >= 11)                { label = 'Grave Ameaça c/ Perseguição';   bg = 'rgba(239,68,68,.8)'; }
+  const badge = document.getElementById('reg-stalking-score-badge');
+  if (badge) { badge.textContent = label; badge.style.background = bg; }
+}
+
+function regAtualizarBannerStalking() {
+  const sim = document.getElementById('reg-stalking-sim');
+  const banner = document.getElementById('reg-stalking-context-banner');
+  if (!banner) return;
+  if (sim && sim.checked) {
+    let total = 0;
+    document.querySelectorAll('input[name="reg-sk"]:checked').forEach(cb => { total += parseInt(cb.value); });
+    const cls = total >= 11 ? 'Grave Ameaça com Perseguição' : total >= 6 ? 'Risco Elevado' : total > 0 ? 'Baixo Risco' : 'Sem marcações';
+    const sc = document.getElementById('reg-banner-stalking-score');
+    const cl = document.getElementById('reg-banner-stalking-class');
+    if (sc) sc.textContent = total;
+    if (cl) cl.textContent = cls;
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
 /* ── Step navigation ─────────────────────────────── */
 function regIrParaStep(n) {
   regSalvarDados();
@@ -2359,7 +2494,8 @@ function regIrParaStep(n) {
 
   document.getElementById('page-container').scrollTo(0, 0);
 
-  if (n === 4) regPreencherResumo();
+  if (n === 5) regPreencherResumo();
+  if (n === 4) regAtualizarBannerStalking();
 }
 
 function regGetScore() {
@@ -2383,9 +2519,68 @@ function regPrecisaManifestacoes() {
 }
 
 /* ── Score calc ──────────────────────────────────── */
+const regExemplosEixos = {
+  'reg-e1': {
+    0: "Exemplo Prático: Xingamento isolado sem intenção de dano; reclamação exaltada; crítica agressiva",
+    1: "Exemplo Prático: Frases como 'você vai ver', 'vai se arrepender' sem indicar o que ocorrerá",
+    2: "Exemplo Prático: Promessa de agressão, dano material, quebra de bem",
+    3: "Exemplo Prático: Vou te matar; vou te espancar; sequestro anunciado"
+  },
+  'reg-e2': {
+    0: "Exemplo Prático: Não há indicação de violência",
+    1: "Exemplo Prático: Difamação, prejuízo econômico, exposição",
+    2: "Exemplo Prático: Ofensas agressivas reiteradas, humilhação contínua",
+    3: "Exemplo Prático: Agressão física, uso de arma, ameaça de morte"
+  },
+  'reg-e3': {
+    0: "Exemplo Prático: Nenhuma informação sobre como, quando ou onde",
+    1: "Exemplo Prático: Ameaça sem definição de meio ou alvo",
+    2: "Exemplo Prático: Citação de pessoa ou local específico",
+    3: "Exemplo Prático: Pessoa identificada, método e local definidos"
+  },
+  'reg-e4': {
+    0: "Exemplo Prático: Autor não tem acesso, meios ou histórico",
+    1: "Exemplo Prático: Autor distante, sem meios claros",
+    2: "Exemplo Prático: Conhece a vítima, acesso eventual",
+    3: "Exemplo Prático: Acesso direto, histórico de violência"
+  },
+  'reg-e5': {
+    0: "Exemplo Prático: Sem referência temporal",
+    1: "Exemplo Prático: Algo para o futuro distante",
+    2: "Exemplo Prático: Próximos dias ou semanas",
+    3: "Exemplo Prático: Agora, hoje, após o expediente"
+  },
+  'reg-e6': {
+    0: "Exemplo Prático: Sem conflito prévio conhecido",
+    1: "Exemplo Prático: Discussões recorrentes, desentendimentos",
+    2: "Exemplo Prático: Registros ou relatos prévios de ameaça",
+    3: "Exemplo Prático: Agressão física ou ocorrência policial anterior"
+  }
+};
+
 function regCalcScore() {
   const total = regGetScore();
   document.getElementById('reg-score-val').textContent = total;
+
+  ['reg-e1','reg-e2','reg-e3','reg-e4','reg-e5','reg-e6'].forEach(e => {
+    const r = document.querySelector(`input[name="${e}"]:checked`);
+    const card = document.querySelector(`input[name="${e}"]`)?.closest('.reg-axis-card');
+    if (card) {
+      let exDiv = card.querySelector('.reg-axis-exemplo');
+      if (!exDiv) {
+        exDiv = document.createElement('div');
+        exDiv.className = 'reg-axis-exemplo';
+        exDiv.style.cssText = 'margin-top:10px; padding:8px 12px; background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:6px; font-size:.82rem; font-weight:500; color:#0369a1; display:none;';
+        card.appendChild(exDiv);
+      }
+      if (r) {
+        exDiv.innerHTML = `<strong style="color:#0284c7;">&#128161;</strong> ${regExemplosEixos[e][r.value]}`;
+        exDiv.style.display = 'block';
+      } else {
+        exDiv.style.display = 'none';
+      }
+    }
+  });
 
   let label = 'Aguardando', cls = '';
   if (total <= 6  && total > 0) { label = 'Fala inadequada'; cls = 'low'; }
@@ -2468,6 +2663,14 @@ function regColetarDados() {
     high:'Encaminhar para USI com proteção imediata.'
   };
 
+  const stalkingSim   = document.getElementById('reg-stalking-sim');
+  const stalkingAtivo = stalkingSim && stalkingSim.checked;
+  let stalkingScore   = 0;
+  if (stalkingAtivo) {
+    document.querySelectorAll('input[name="reg-sk"]:checked').forEach(cb => { stalkingScore += parseInt(cb.value); });
+  }
+  let stalkingClass = stalkingScore >= 11 ? 'Grave Ameaça com Perseguição' : stalkingScore >= 6 ? 'Risco Elevado' : stalkingScore > 0 ? 'Baixo Risco' : '—';
+
   return {
     id: regAtendId,
     nome:      (document.getElementById('reg-nome') || {}).value || '',
@@ -2484,6 +2687,9 @@ function regColetarDados() {
     relatorVitima: document.getElementById('reg-relator-vitima') ? document.getElementById('reg-relator-vitima').checked : false,
     classificacao: (document.querySelector('input[name="reg-classificacao"]:checked') || {}).value || '',
     assessor: localStorage.getItem('assessorMatricula') || localStorage.getItem('assessorLigado') || 'Fxxxxxxx',
+    stalkingAtivo,
+    stalkingScore,
+    stalkingClassificacao: stalkingClass,
     matriz: {
       pontuacao: score, classificacao, nivel,
       tratamento: tratamentos[nivel],
@@ -2608,6 +2814,20 @@ function regPreencherResumo() {
   relatoEl.textContent = d.relato || '—';
   relatoEl.style.fontStyle = d.relato ? 'normal' : 'italic';
   relatoEl.style.color = d.relato ? 'var(--text)' : 'var(--muted)';
+
+  // Bloco de Stalking no Resumo
+  const stalkingSection = document.getElementById('reg-s-stalking-section');
+  if (stalkingSection) {
+    if (d.stalkingAtivo && d.stalkingScore > 0) {
+      stalkingSection.style.display = 'block';
+      const sc = document.getElementById('reg-s-stalking-score');
+      const cl = document.getElementById('reg-s-stalking-class');
+      if (sc) sc.textContent = d.stalkingScore + ' / 19';
+      if (cl) cl.textContent = d.stalkingClassificacao;
+    } else {
+      stalkingSection.style.display = 'none';
+    }
+  }
 
   const m = d.matriz;
   document.getElementById('reg-s-score').textContent = m.pontuacao + ' / 18';

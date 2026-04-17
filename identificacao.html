@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Novo Atendimento - GT Ameaça</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts/inter.css">
   <script src="js/script.js"></script>
   <style>
     :root {
@@ -479,11 +479,15 @@
           <div class="step-dot">2</div>
           <div class="step-label">Descrição</div>
         </div>
-        <div class="step-item" data-step="3">
+        <div class="step-item" data-step="3" id="step-indicator-3" style="display:none">
           <div class="step-dot">3</div>
-          <div class="step-label">Matriz de Risco</div>
+          <div class="step-label">Stalking</div>
         </div>
         <div class="step-item" data-step="4">
+          <div class="step-dot">4</div>
+          <div class="step-label">Matriz de Risco</div>
+        </div>
+        <div class="step-item" data-step="5">
           <div class="step-dot">&#10003;</div>
           <div class="step-label">Resumo</div>
         </div>
@@ -582,6 +586,24 @@
           </div>
         </div>
 
+        <!-- Pergunta de Stalking -->
+        <div class="axis-card" style="border-left: 4px solid #f43f5e; margin-top: 8px;">
+          <div class="axis-title" style="color:#9f1239; display:flex; align-items:center; gap:8px;">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            Sofreu ou está sofrendo Stalking / Perseguição?
+          </div>
+          <div style="display:flex; gap:10px; margin-top:10px;">
+            <label class="radio-opt" id="stalking-sim-label" onclick="onStalkingChange('sim')" style="flex:1; border-color:#fecaca;">
+              <input type="radio" name="stalking-triagem" value="sim" id="stalking-sim">
+              <div class="radio-text"><strong style="color:#9f1239">Sim</strong><span>Aplicar Qualificador de Perseguição</span></div>
+            </label>
+            <label class="radio-opt" id="stalking-nao-label" onclick="onStalkingChange('nao')" style="flex:1;">
+              <input type="radio" name="stalking-triagem" value="nao" id="stalking-nao">
+              <div class="radio-text"><strong>Não</strong><span>Prosseguir direto para a Matriz</span></div>
+            </label>
+          </div>
+        </div>
+
         <div class="card-footer">
           <div class="footer-left">
             <div class="save-status" id="save-status" style="display:none">
@@ -620,13 +642,59 @@
           <div class="footer-right">
             <button class="btn btn-cancel" onclick="cancelarAtendimento()">CANCELAR</button>
             <button class="btn btn-outline" onclick="irParaStep(1)">‹ ANTERIOR</button>
-            <button class="btn btn-primary" onclick="irParaStep(3)">PRÓXIMO ›</button>
+            <button class="btn btn-primary" onclick="avancarDeDescricao()">PRÓXIMO ›</button>
           </div>
         </div>
       </div>
 
-      <!-- ════ STEP 3: Matriz de Risco ═════════════ -->
+      <!-- ════ STEP 3: Qualificador de Stalking ════ -->
       <div id="step-3" class="step-panel" style="display:none">
+        <div style="background:linear-gradient(135deg,#9f1239,#e11d48); color:#fff; border-radius:10px; padding:16px 20px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div><div style="font-size:.72rem; opacity:.8; margin-bottom:4px;">Pontuação Stalking</div><div style="display:flex; align-items:baseline; gap:4px;"><span style="font-size:2.2rem; font-weight:800; line-height:1;" id="stalking-score-val">0</span><span style="font-size:.9rem; opacity:.7;">/ 19 pts</span></div></div>
+          <span id="stalking-score-badge" style="padding:4px 14px; border-radius:99px; font-size:.78rem; font-weight:700; background:rgba(255,255,255,.2);">Aguardando</span>
+        </div>
+        <p style="font-size:.82rem; color:var(--muted); margin-bottom:14px; padding:10px 14px; background:#fff1f2; border-radius:8px; border-left:3px solid #f43f5e;">Responda <strong style="color:#9f1239;">Sim</strong> (marque) para cada comportamento identificado. A pontuação atuará como <strong>qualificador contextual</strong> na Matriz de Risco.</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Mensagens diárias; perseguição no trabalho">
+            <input type="checkbox" name="sk" value="3" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Reiteração da Conduta <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">A conduta ocorreu reiteradamente?</div></div>
+          </label>
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Bloqueios ignorados">
+            <input type="checkbox" name="sk" value="2" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Meios Utilizados <span style="color:#e11d48;">(+2)</span></div><div style="font-size:.77rem;color:var(--muted);">Após rejeição expressa, a conduta continuou?</div></div>
+          </label>
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Ansiedade; medo de circular">
+            <input type="checkbox" name="sk" value="2" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Indesejamento <span style="color:#e11d48;">(+2)</span></div><div style="font-size:.77rem;color:var(--muted);">Gerou medo, humilhação ou sofrimento emocional?</div></div>
+          </label>
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Evitar locais; mudar rotas">
+            <input type="checkbox" name="sk" value="3" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Ameaça Implícita/Explícita <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">Dificultou o direito de ir e vir?</div></div>
+          </label>
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Deixar de socializar">
+            <input type="checkbox" name="sk" value="3" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Impacto Psicológico <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">Alterou hábitos ou comportamentos legítimos?</div></div>
+          </label>
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Monitoramento digital">
+            <input type="checkbox" name="sk" value="3" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Restrição de Liberdade <span style="color:#e11d48;">(+3)</span></div><div style="font-size:.77rem;color:var(--muted);">Houve invasão ou vigilância indevida?</div></div>
+          </label>
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Cyberstalking">
+            <input type="checkbox" name="sk" value="1" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Vínculo Anterior <span style="color:#e11d48;">(+1)</span></div><div style="font-size:.77rem;color:var(--muted);">Ocorreu por qualquer meio (digital ou presencial)?</div></div>
+          </label>
+          <label class="axis-opt" style="align-items:flex-start;padding:12px;" title="Ex: Mudança de rotina">
+            <input type="checkbox" name="sk" value="2" onchange="calcStalkingScore()" style="accent-color:#e11d48;margin-top:3px;flex-shrink:0;"><div><div style="font-size:.82rem;font-weight:700;">Escalada da Conduta <span style="color:#e11d48;">(+2)</span></div><div style="font-size:.77rem;color:var(--muted);">A conduta evoluiu forçando mudança do cotidiano?</div></div>
+          </label>
+        </div>
+        <div class="card-footer"><div class="footer-left"></div><div class="footer-right">
+          <button class="btn btn-cancel" onclick="cancelarAtendimento()">CANCELAR</button>
+          <button class="btn btn-outline" onclick="irParaStep(2)">‹ ANTERIOR</button>
+          <button class="btn btn-primary" onclick="irParaStep(4)">PRÓXIMO: MATRIZ ›</button>
+        </div></div>
+      </div>
+
+      <!-- ════ STEP 4: Matriz de Risco ═════════════ -->
+      <div id="step-4" class="step-panel" style="display:none">
+
+        <!-- Banner de contexto de Stalking -->
+        <div id="stalking-context-banner" style="display:none; background:#fff1f2; border:1.5px solid #fecaca; border-left:4px solid #e11d48; border-radius:8px; padding:10px 14px; margin-bottom:14px;">
+          <div style="font-size:.72rem; font-weight:700; color:#9f1239; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px;">&#128683; Qualificador Contextual: Perseguição</div>
+          <div style="font-size:.85rem; color:#7f1d1d;">Pontuação Stalking: <strong id="banner-stalking-score">0</strong> / 19 &nbsp;&bull;&nbsp; <strong id="banner-stalking-class">—</strong></div>
+        </div>
 
         <!-- Score widget -->
         <div class="score-widget">
@@ -725,14 +793,14 @@
           <div class="footer-left"></div>
           <div class="footer-right">
             <button class="btn btn-cancel" onclick="cancelarAtendimento()">CANCELAR</button>
-            <button class="btn btn-outline" onclick="irParaStep(2)">‹ ANTERIOR</button>
-            <button class="btn btn-primary" onclick="irParaStep(4)">PRÓXIMO ›</button>
+            <button class="btn btn-outline" onclick="voltarDaMatriz()">‹ ANTERIOR</button>
+            <button class="btn btn-primary" onclick="irParaStep(5)">PRÓXIMO ›</button>
           </div>
         </div>
       </div>
 
-      <!-- ════ STEP 4: Resumo ═══════════════════════ -->
-      <div id="step-4" class="step-panel" style="display:none">
+      <!-- ════ STEP 5: Resumo ═══════════════════════ -->
+      <div id="step-5" class="step-panel" style="display:none">
 
         <div class="summary-section">
           <h4>Identificação</h4>
@@ -751,6 +819,23 @@
         <div class="summary-section">
           <h4>Descrição da Ocorrência</h4>
           <div class="summary-relato" id="s-relato" style="color:var(--muted); font-style:italic">Sem descrição</div>
+        </div>
+
+        <!-- Bloco de Stalking no Resumo -->
+        <div id="s-stalking-section" style="display:none; margin-bottom:20px;">
+          <div class="summary-section">
+            <h4>Qualificador de Perseguição (Stalking)</h4>
+            <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; background:#fff1f2; border-radius:var(--radius); border:1px solid #fecaca;">
+              <div>
+                <span style="font-size:.75rem; color:var(--muted);">Pontuação</span>
+                <div style="font-size:1.6rem; font-weight:800; color:#9f1239;" id="s-stalking-score">0 / 19</div>
+              </div>
+              <div style="flex:1;">
+                <span style="font-size:.75rem; color:var(--muted); display:block; margin-bottom:4px;">Classificação</span>
+                <span id="s-stalking-class" style="padding:4px 12px; border-radius:99px; font-size:.85rem; font-weight:700; background:#fee2e2; color:#9f1239;">Aguardando</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="summary-section">
@@ -786,7 +871,7 @@
           </div>
           <div class="footer-right">
             <button class="btn btn-cancel" onclick="cancelarAtendimento()">CANCELAR</button>
-            <button class="btn btn-outline" onclick="irParaStep(3)">‹ ANTERIOR</button>
+            <button class="btn btn-outline" onclick="irParaStep(4)">‹ ANTERIOR</button>
             <button class="btn btn-outline" onclick="salvarRascunho()">FINALIZAR DEPOIS</button>
             <button class="btn btn-primary" onclick="finalizarAtendimento()">FINALIZAR ATENDIMENTO ›</button>
           </div>
@@ -936,7 +1021,6 @@ function precisaManifestacoes() {
 }
 
 function irParaStep(n) {
-  // Salvar automaticamente ao avançar
   salvarDados();
 
   // Atualizar step indicator
@@ -955,8 +1039,51 @@ function irParaStep(n) {
   // Scroll para o topo
   document.getElementById('page-scroll').scrollTo(0, 0);
 
-  // Preencher resumo no step 4
-  if (n === 4) preencherResumo();
+  // Preencher resumo no step 5
+  if (n === 5) preencherResumo();
+
+  // Atualizar banner de stalking ao entrar na Matriz (step 4)
+  if (n === 4) atualizarBannerStalking();
+}
+
+/* ─── Avançar da Descrição (step 2): vai para Stalking (3) ou Matriz (4) ─── */
+function avancarDeDescricao() {
+  const sim = document.getElementById('stalking-sim');
+  if (sim && sim.checked) {
+    irParaStep(3);
+  } else {
+    irParaStep(4);
+  }
+}
+
+/* ─── Voltar da Matriz (step 4): vai para Stalking (3) se aplicável ─── */
+function voltarDaMatriz() {
+  const sim = document.getElementById('stalking-sim');
+  if (sim && sim.checked) {
+    irParaStep(3);
+  } else {
+    irParaStep(2);
+  }
+}
+
+/* ─── Ativar/desativar stalking na triagem (step 1) ─── */
+function onStalkingChange(resp) {
+  const indicador = document.getElementById('step-indicator-3');
+  const simLabel  = document.getElementById('stalking-sim-label');
+  const naoLabel  = document.getElementById('stalking-nao-label');
+
+  if (resp === 'sim') {
+    document.getElementById('stalking-sim').checked = true;
+    if (indicador) indicador.style.display = '';
+    if (simLabel)  simLabel.classList.add('selected');
+    if (naoLabel)  naoLabel.classList.remove('selected');
+  } else {
+    document.getElementById('stalking-nao').checked = true;
+    if (indicador) indicador.style.display = 'none';
+    if (naoLabel)  naoLabel.classList.add('selected');
+    if (simLabel)  simLabel.classList.remove('selected');
+  }
+  salvarDados();
 }
 
 /* Decide se vai para manifestações ou direto para resumo */
@@ -1061,11 +1188,68 @@ function atualizarStatusParecer(setor) {
 /* ═══════════════════════════════════════════════════════
    CÁLCULO DE SCORE (Matriz)
    ═══════════════════════════════════════════════════════ */
+const exemplosEixos = {
+  e1: {
+    0: "Exemplo Prático: Xingamento isolado sem intenção de dano; reclamação exaltada; crítica agressiva",
+    1: "Exemplo Prático: Frases como 'você vai ver', 'vai se arrepender' sem indicar o que ocorrerá",
+    2: "Exemplo Prático: Promessa de agressão, dano material, quebra de bem",
+    3: "Exemplo Prático: Vou te matar; vou te espancar; sequestro anunciado"
+  },
+  e2: {
+    0: "Exemplo Prático: Não há indicação de violência",
+    1: "Exemplo Prático: Difamação, prejuízo econômico, exposição",
+    2: "Exemplo Prático: Ofensas agressivas reiteradas, humilhação contínua",
+    3: "Exemplo Prático: Agressão física, uso de arma, ameaça de morte"
+  },
+  e3: {
+    0: "Exemplo Prático: Nenhuma informação sobre como, quando ou onde",
+    1: "Exemplo Prático: Ameaça sem definição de meio ou alvo",
+    2: "Exemplo Prático: Citação de pessoa ou local específico",
+    3: "Exemplo Prático: Pessoa identificada, método e local definidos"
+  },
+  e4: {
+    0: "Exemplo Prático: Autor não tem acesso, meios ou histórico",
+    1: "Exemplo Prático: Autor distante, sem meios claros",
+    2: "Exemplo Prático: Conhece a vítima, acesso eventual",
+    3: "Exemplo Prático: Acesso direto, histórico de violência"
+  },
+  e5: {
+    0: "Exemplo Prático: Sem referência temporal",
+    1: "Exemplo Prático: Algo para o futuro distante",
+    2: "Exemplo Prático: Próximos dias ou semanas",
+    3: "Exemplo Prático: Agora, hoje, após o expediente"
+  },
+  e6: {
+    0: "Exemplo Prático: Sem conflito prévio conhecido",
+    1: "Exemplo Prático: Discussões recorrentes, desentendimentos",
+    2: "Exemplo Prático: Registros ou relatos prévios de ameaça",
+    3: "Exemplo Prático: Agressão física ou ocorrência policial anterior"
+  }
+};
+
 function calcScore() {
   let total = 0;
   ['e1','e2','e3','e4','e5','e6'].forEach(e => {
     const r = document.querySelector(`input[name="${e}"]:checked`);
     if (r) total += parseInt(r.value);
+
+    // Update Exemplo
+    const card = document.querySelector(`input[name="${e}"]`)?.closest('.axis-card');
+    if (card) {
+      let exDiv = card.querySelector('.axis-exemplo');
+      if (!exDiv) {
+        exDiv = document.createElement('div');
+        exDiv.className = 'axis-exemplo';
+        exDiv.style.cssText = 'margin-top:10px; padding:8px 12px; background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:6px; font-size:.82rem; font-weight:500; color:#0369a1; display:none;';
+        card.appendChild(exDiv);
+      }
+      if (r) {
+        exDiv.innerHTML = `<strong style="color:#0284c7;">&#128161;</strong> ${exemplosEixos[e][r.value]}`;
+        exDiv.style.display = 'block';
+      } else {
+        exDiv.style.display = 'none';
+      }
+    }
   });
 
   document.getElementById('score-val').textContent = total;
@@ -1080,6 +1264,44 @@ function calcScore() {
   badge.style.background = total === 0 ? 'rgba(255,255,255,.2)' :
     cls === 'low'    ? 'rgba(16,185,129,.8)'  :
     cls === 'medium' ? 'rgba(245,158,11,.8)'  : 'rgba(239,68,68,.8)';
+}
+
+/* ─── Calcular score de Stalking (step 3) ─── */
+function calcStalkingScore() {
+  let total = 0;
+  document.querySelectorAll('input[name="sk"]:checked').forEach(cb => {
+    total += parseInt(cb.value);
+  });
+  const el = document.getElementById('stalking-score-val');
+  if (el) el.textContent = total;
+
+  let label = 'Aguardando', bg = 'rgba(255,255,255,.2)';
+  if (total >= 1  && total <= 5)  { label = 'Baixo Risco';                      bg = 'rgba(16,185,129,.8)'; }
+  if (total >= 6  && total <= 10) { label = 'Risco Elevado';                    bg = 'rgba(245,158,11,.8)'; }
+  if (total >= 11)                { label = 'Grave Ameaça c/ Perseguição';      bg = 'rgba(239,68,68,.8)'; }
+
+  const badge = document.getElementById('stalking-score-badge');
+  if (badge) { badge.textContent = label; badge.style.background = bg; }
+  salvarDados();
+}
+
+/* ─── Atualizar banner de stalking na Matriz ─── */
+function atualizarBannerStalking() {
+  const sim = document.getElementById('stalking-sim');
+  const banner = document.getElementById('stalking-context-banner');
+  if (!banner) return;
+  if (sim && sim.checked) {
+    let total = 0;
+    document.querySelectorAll('input[name="sk"]:checked').forEach(cb => { total += parseInt(cb.value); });
+    let cls = total >= 11 ? 'Grave Ameaça com Perseguição' : total >= 6 ? 'Risco Elevado' : total > 0 ? 'Baixo Risco' : 'Sem marcações';
+    const scoreEl = document.getElementById('banner-stalking-score');
+    const clsEl   = document.getElementById('banner-stalking-class');
+    if (scoreEl) scoreEl.textContent = total;
+    if (clsEl)   clsEl.textContent   = cls;
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
 }
 
 function selecionarProva(el) {
@@ -1153,6 +1375,14 @@ function coletarDados() {
 
   const tratamentos = { neutral:'Preencha os eixos para definir o tratamento.', low:'Orientação ao funcionário. Acompanhamento por Gepes.', medium:'Encaminhar para análise policial. Gepes acompanha.', high:'Encaminhar para USI com proteção imediata.' };
 
+  const stalkingSim   = document.getElementById('stalking-sim');
+  const stalkingAtivo = stalkingSim && stalkingSim.checked;
+  let stalkingScore   = 0;
+  if (stalkingAtivo) {
+    document.querySelectorAll('input[name="sk"]:checked').forEach(cb => { stalkingScore += parseInt(cb.value); });
+  }
+  let stalkingClass = stalkingScore >= 11 ? 'Grave Ameaça com Perseguição' : stalkingScore >= 6 ? 'Risco Elevado' : stalkingScore > 0 ? 'Baixo Risco' : '—';
+
   return {
     id: atendId,
     nome:      document.getElementById('nome-relator').value.trim(),
@@ -1169,6 +1399,9 @@ function coletarDados() {
     relatorVitima: document.getElementById('relator-vitima').checked,
     classificacao: (document.querySelector('input[name="classificacao"]:checked') || {}).value || '',
     assessor:  localStorage.getItem('assessorMatricula') || localStorage.getItem('assessorLigado') || 'Fxxxxxxx',
+    stalkingAtivo,
+    stalkingScore,
+    stalkingClassificacao: stalkingClass,
     matriz: {
       pontuacao: score, classificacao, nivel,
       tratamento: tratamentos[nivel],
@@ -1224,6 +1457,20 @@ function preencherResumo() {
   relatoEl.textContent = d.relato || '—';
   relatoEl.style.fontStyle = d.relato ? 'normal' : 'italic';
   relatoEl.style.color = d.relato ? 'var(--text)' : 'var(--muted)';
+
+  // Bloco de Stalking no Resumo
+  const stalkingSection = document.getElementById('s-stalking-section');
+  if (stalkingSection) {
+    if (d.stalkingAtivo && d.stalkingScore > 0) {
+      stalkingSection.style.display = 'block';
+      const sc = document.getElementById('s-stalking-score');
+      const cl = document.getElementById('s-stalking-class');
+      if (sc) sc.textContent = d.stalkingScore + ' / 19';
+      if (cl) cl.textContent = d.stalkingClassificacao;
+    } else {
+      stalkingSection.style.display = 'none';
+    }
+  }
 
   const m = d.matriz;
   document.getElementById('s-score').textContent = m.pontuacao + ' / 18';

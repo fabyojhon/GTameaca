@@ -389,40 +389,79 @@ document.addEventListener('DOMContentLoaded', () => {
             radio.closest('.radio-option').classList.add('selected');
         });
 
-        // Add selected class to checked checkbox
+        // Add selected class to checked checkbox (BO)
         if (checkboxInput.checked) {
             checkboxInput.closest('.checkbox-option').classList.add('selected');
         }
+
+        // Add selected class to checked stalking checkboxes
+        document.querySelectorAll('.stalking-input:checked').forEach(input => {
+            input.closest('.checkbox-option').classList.add('selected');
+        });
     }
 
     // Calculate score and update UI
-    function calculateRisk() {
-        let score = 0;
+    window.calculateRisk = function() {
+        let scoreGeral = 0;
+        let scoreStalking = 0;
         let allAxesAnswered = true;
 
-        // Sum up axes scores
+        // 1. Cálculo dos Eixos Tradicionais (E1 a E6)
         for (let i = 1; i <= 6; i++) {
             const checked = document.querySelector(`input[name="e${i}"]:checked`);
             if (checked) {
-                score += parseInt(checked.value, 10);
+                scoreGeral += parseInt(checked.value, 10);
             } else {
                 allAxesAnswered = false;
             }
         }
 
-        // Animate counter
-        animateValue(totalScoreEl, parseInt(totalScoreEl.innerText) || 0, score, 300);
+        // 2. Cálculo do Módulo de Stalking (Checkboxes)
+        const stalkingCheckboxes = document.querySelectorAll('.stalking-input:checked');
+        stalkingCheckboxes.forEach(cb => {
+            scoreStalking += parseInt(cb.value, 10);
+        });
 
-        // Update Category and Treatment
-        if (!allAxesAnswered && score === 0) {
-            resetResultsUI();
-        } else {
-            updateCategory(score);
+        const pontuacaoFinal = scoreGeral + scoreStalking;
+
+        // 3. Lógica de Classificação Híbrida
+        let categoria = "Aguardando...";
+        let nivel = "neutral";
+        let tratamento = "Preencha os eixos ao lado para ver o tratamento recomendado.";
+
+        if (scoreStalking >= 11) {
+            // Regra de Ouro: Perseguição Grave (conforme stalking.xlsx)
+            categoria = "Grave Ameaça com Perseguição";
+            nivel = "high";
+            tratamento = "Acionamento IMEDIATO da USI e DIPES. Implementar medidas de ocultação estratégica e proteção funcional.";
+        } else if (pontuacaoFinal >= 13) {
+            categoria = "Grave Ameaça";
+            nivel = "high";
+            tratamento = "Análise de medidas policiais (BO) pela USI. Orientação cautelar e procedimento interno de proteção.";
+        } else if (pontuacaoFinal >= 7 || scoreStalking >= 6) {
+            categoria = "Baixo potencial / Risco Elevado";
+            nivel = "medium";
+            tratamento = "Análise de medidas pela Gepes. Registro de BO recomendado. Orientação padrão de segurança.";
+        } else if (allAxesAnswered) {
+            categoria = "Fala inadequada / Baixo Risco";
+            nivel = "low";
+            tratamento = "Orientação e mediação administrativa. Monitoramento via Gepes Atendimento.";
         }
 
-        // Update Tags
-        updateTags();
+        // 4. Atualização da UI
+        const scoreEl = document.getElementById('total-score');
+        const categoryEl = document.getElementById('risk-category');
+        const treatmentEl = document.getElementById('treatment-text');
+
+        if (scoreEl) animateValue(scoreEl, parseInt(scoreEl.innerText) || 0, pontuacaoFinal, 300);
+        if (categoryEl) {
+            categoryEl.innerText = categoria;
+            categoryEl.className = 'badge ' + nivel;
+        }
+        if (treatmentEl) treatmentEl.innerText = tratamento;
+
         updateSelectedStyles();
+        updateTags();
     }
 
     function animateValue(obj, start, end, duration) {
@@ -440,21 +479,24 @@ document.addEventListener('DOMContentLoaded', () => {
         window.requestAnimationFrame(step);
     }
 
-    function updateCategory(score) {
+    function updateCategory(total, scoreStalking) {
         riskCategoryEl.className = 'badge'; // Reset classes
-        
-        if (score >= 0 && score <= 6) {
-            riskCategoryEl.innerText = "Fala inadequada";
-            riskCategoryEl.classList.add('low');
-            treatmentTextEl.innerText = "Orientação, mediação se for com colega.";
-        } else if (score >= 7 && score <= 12) {
-            riskCategoryEl.innerText = "Baixo potencial lesivo de ameaça";
+
+        // Regra de Ouro: Stalking >= 11 ou Total >= 13 = Grave Ameaça
+        if (scoreStalking >= 11 || total >= 13) {
+            riskCategoryEl.innerText = scoreStalking >= 11 ? "Grave Ameaça com Perseguição" : "Grave Ameaça";
+            riskCategoryEl.classList.add('high');
+            treatmentTextEl.innerText = scoreStalking >= 11
+                ? "Situação de grave risco com padrão de perseguição identificado. Acionar USI imediatamente, registrar BO, aplicar medidas cautelares de proteção e ativar protocolo interno de segurança ao funcionário."
+                : "Análise de medidas policiais (registro de BO) a cargo da USI, orientação de medidas de segurança cautelares, realizar procedimento interno de proteção ao funcionário.";
+        } else if (total >= 7 || scoreStalking >= 6) {
+            riskCategoryEl.innerText = "Risco Elevado / Potencial Lesivo";
             riskCategoryEl.classList.add('medium');
             treatmentTextEl.innerText = "Análise de medidas policiais (registro de BO) a cargo da Gepes, orientação PADRÃO de medidas de segurança.";
-        } else if (score >= 13 && score <= 18) {
-            riskCategoryEl.innerText = "Grave ameaça";
-            riskCategoryEl.classList.add('high');
-            treatmentTextEl.innerText = "Análise de medidas policiais (registro de BO) a cargo da USI, orientação de medidas de segurança cautelares, realizar procedimento interno de proteção ao funcionário.";
+        } else {
+            riskCategoryEl.innerText = "Baixo Risco / Fala Inadequada";
+            riskCategoryEl.classList.add('low');
+            treatmentTextEl.innerText = "Orientação, mediação se for com colega.";
         }
     }
 
